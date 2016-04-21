@@ -1,7 +1,7 @@
 
 public class GameInstance {
-	Player player;
-	Maze maze; 
+	private Player player;
+	private Maze maze; 
 	
 	public GameInstance (int width, int height, String name) {
 		this.maze = new Maze(width,height);
@@ -12,7 +12,7 @@ public class GameInstance {
 	}
 
 	public void printMaze() {
-		maze.printMaze();
+		maze.printMaze(player.getPosition());
 	}
 	
 	public void move(int mv) {

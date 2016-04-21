@@ -11,6 +11,7 @@ import java.util.Scanner;
  */
 public class InteractiveMazePuzzleGame {
 	GameInstance gi = null;
+	Scanner sc = null;
 	
 	private static final int DEFAULT_WIDTH = 10;
 	private static final int DEFAULT_HEIGHT = 10;
@@ -38,23 +39,23 @@ public class InteractiveMazePuzzleGame {
 	public static void main(String[] args) {
 		// generate a new game instance
 		InteractiveMazePuzzleGame impg = new InteractiveMazePuzzleGame();
-		impg.gi.printMaze();
+		impg.play();
 	}
-
+	
 	public void play() {
-		Scanner sc = null;
 		try {
         	sc = new Scanner(System.in);
             while (sc.hasNextLine()){
                 String line = sc.nextLine();
                 if (line.matches("^[aA]"))
                 	gi.move(LEFT);
-                else if (line.matches("^[D]"))
+                else if (line.matches("^[dD]"))
                 	gi.move(RIGHT);
                 else if (line.matches("^[wW]"))
                 	gi.move(UP);
                 else if (line.matches("^[sS]"))
                 	gi.move(DOWN);
+                gi.printMaze();
             }
         }
         catch (Exception e) {} 

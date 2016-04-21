@@ -7,7 +7,7 @@ public class Tile {
 	private Connection up = null;
 	private Connection down = null;
 	
-	boolean playable = false;
+	private boolean playable = false;
 	
 	public Tile() {
 	}
