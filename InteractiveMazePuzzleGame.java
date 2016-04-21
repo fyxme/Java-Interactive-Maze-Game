@@ -48,6 +48,8 @@ public class InteractiveMazePuzzleGame {
 		System.out.println("To move Right type : d<enter>");
 		System.out.println("To move Left type : a<enter>");
 		
+		gi.printMaze();
+		
 		try {
         	sc = new Scanner(System.in);
             while (sc.hasNextLine()) {
