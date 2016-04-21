@@ -45,8 +45,9 @@ public class InteractiveMazePuzzleGame {
 	public void play() {
 		try {
         	sc = new Scanner(System.in);
-            while (sc.hasNextLine()){
+            while (sc.hasNextLine()) {
                 String line = sc.nextLine();
+                // make move
                 if (line.matches("^[aA]"))
                 	gi.move(LEFT);
                 else if (line.matches("^[dD]"))
@@ -55,6 +56,8 @@ public class InteractiveMazePuzzleGame {
                 	gi.move(UP);
                 else if (line.matches("^[sS]"))
                 	gi.move(DOWN);
+                
+                // print maze
                 gi.printMaze();
             }
         }

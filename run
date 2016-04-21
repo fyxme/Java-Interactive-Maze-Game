@@ -3,5 +3,5 @@
 `./compile`;
 
 print "Running...\n";
-print `java InteractiveMazePuzzleGame`;
+system "java InteractiveMazePuzzleGame";
 print "So long sailor...\n";
