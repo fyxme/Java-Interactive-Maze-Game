@@ -43,6 +43,11 @@ public class InteractiveMazePuzzleGame {
 	}
 	
 	public void play() {
+		System.out.println("To move Up type : w<enter>");
+		System.out.println("To move Down type : s<enter>");
+		System.out.println("To move Right type : d<enter>");
+		System.out.println("To move Left type : a<enter>");
+		
 		try {
         	sc = new Scanner(System.in);
             while (sc.hasNextLine()) {
