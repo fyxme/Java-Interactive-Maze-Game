@@ -1,4 +1,6 @@
-
+/**
+ * Class that contains a games Player and the Maze he will be playing
+ */
 public class GameInstance {
 	private Player player;
 	private Maze maze; 
@@ -21,10 +23,17 @@ public class GameInstance {
 		this.player.setPosition(this.maze.getStartTile());
 	}
 
+	/**
+	 * Print the Maze linked to this game Instance
+	 */
 	public void printMaze() {
 		maze.printMaze(player.getPosition());
 	}
 	
+	/**
+	 * Attempt to make a move
+	 * @param mv the integer corresponding to the move
+	 */
 	public void move(int mv) {
 		if (mv == LEFT) {
 			player.moveLeft();
@@ -35,6 +44,11 @@ public class GameInstance {
 		} else if (mv == DOWN) {
 			player.moveDown();
 		}
+	}
+
+	public String getMazeAsString() {
+		return maze.getMazeAsString(player.getPosition());
+		
 	}
 	
 }

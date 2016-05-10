@@ -13,8 +13,8 @@ public class InteractiveMazePuzzleGame {
 	GameInstance gi = null;
 	Scanner sc = null;
 	
-	private static final int DEFAULT_WIDTH = 10;
-	private static final int DEFAULT_HEIGHT = 10;
+	private static final int DEFAULT_WIDTH = 40;
+	private static final int DEFAULT_HEIGHT = 40;
 	private static final String DEFAULT_NAME = "Ronin the Conqueror of Worlds";
 	
 	/**
@@ -42,6 +42,10 @@ public class InteractiveMazePuzzleGame {
 		impg.play();
 	}
 	
+	/**
+	 * Allows the player to move around the maze in a terminal window 
+	 * @precondition gi has been initialised and contains a maze
+	 */
 	public void play() {
 		System.out.println("To move Up type : w<enter>");
 		System.out.println("To move Down type : s<enter>");

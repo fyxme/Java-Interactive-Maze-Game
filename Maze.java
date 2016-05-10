@@ -4,6 +4,10 @@ import java.util.Stack;
 
 // Different maze algorithms
 // http://www.jamisbuck.org/presentations/rubyconf2011/index.html
+/**
+ * Class containing the Maze
+ *
+ */
 public class Maze {
 	private Tile start_tile = null;
 	
@@ -84,24 +88,26 @@ public class Maze {
 		
 	}
 	
-	public void printMaze(Tile player_pos) {
+	public String printMaze(Tile player_pos) {
 		Tile curr = start_tile;
+		String ret = "";
 		// print top wall
 		while (curr != null) {
-			System.out.print("+-");
+			ret += "+-";
 			curr = curr.getDown() == null? null : curr.getDown().getConnectedTile(curr);
 		}
-		System.out.println("+");
+		ret+="+\n";
 		curr = start_tile;
 		// print rest of maze
 		while (curr != null) {
-			recursiveRowPrint(curr, new String(), new String(),player_pos);
+			ret += recursiveRowPrint(curr, new String(), new String(),player_pos);
 			curr = curr.getDown() == null? null : curr.getDown().getConnectedTile(curr);
 		}
+		return ret;
 	}
 	
 	
-	private void recursiveRowPrint(Tile current,String l1, String l2, Tile player_pos) {
+	private String recursiveRowPrint(Tile current,String l1, String l2, Tile player_pos) {
 		
 		// print left wall for border of maze
 		if (current.getLeft() == null) {
@@ -131,13 +137,14 @@ public class Maze {
 				l1 += "|";
 				l2 += "+";
 			}
-			recursiveRowPrint(current.getRight().getConnectedTile(current),l1,l2,player_pos);
+			return recursiveRowPrint(current.getRight().getConnectedTile(current),l1,l2,player_pos);
 		} else {
 			l1 += "|";
 			l2 += "+";
 			// end of line print wall
-			System.out.println(l1);
-			System.out.println(l2);
+			return l1 +"\n"+ l2+"\n";
+//			System.out.println(l1);
+//			System.out.println(l2);
 		}
 	}
 	
@@ -167,5 +174,9 @@ public class Maze {
 
 	public Tile getStartTile() {
 		return this.start_tile;
+	}
+
+	public String getMazeAsString(Tile position) {
+		return printMaze(position);
 	}
 }

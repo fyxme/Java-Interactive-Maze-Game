@@ -1,0 +1,7 @@
+#! /usr/bin/env bash
+
+rm *.class
+
+javac Map.java
+java Map
+
