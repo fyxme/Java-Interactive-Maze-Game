@@ -85,17 +85,33 @@ public class Map extends JPanel implements KeyListener{
         // Clear the board
         g.clearRect(0, 0, getWidth(), getHeight());
         // Draw the grid
-        int rectWidth = getWidth() / (DEFAULT_WIDTH * 2 + 1);
-        int rectHeight = getHeight() / (DEFAULT_HEIGHT * 2 + 1);
+//        DEFAULT_WIDTH = 20;
+        int rectWidth = (100 * getWidth())/(DEFAULT_WIDTH * 100 + 20 *  (DEFAULT_WIDTH + 1));
+        
+        // int rectWidth = (getHeight() - (DEFAULT_WIDTH + 1) * 20 * rectWidth / 100)/DEFAULT_WIDTH;
+        // rectWidth * DEFAULT_WIDTH * 100 = 100 * getHeight() - 20 * rectWidth
+        // rectWidth * DEFAULT_WIDTH * 100 + 20 * rectWidth = 100 * getHeight()
+        // rectWidth = (100 * getHeight())/(DEFAULT_WIDTH * 100 + 20);
+        int rectHeight = (100 * getHeight())/(DEFAULT_HEIGHT * 100 + 20 *  (DEFAULT_HEIGHT + 1));
+        // wall = 
+        int wallWidth = 20 * rectWidth / 100;
+        int wallHeight = 20 * rectHeight / 100;
 
+        int x = 0;
+        int y = 0;
         for (int i = 0; i < DEFAULT_WIDTH * 2 + 1; i++) {
             for (int j = 0; j < DEFAULT_HEIGHT * 2 + 1; j++) {
                 // Upper left corner of this terrain rect
-                int x = i * rectWidth;
-                int y = j * rectHeight;
+            	x = ((int)i/2) * rectWidth + (int)(i+1)/2 * wallHeight;
+                y = ((int)j/2) * rectHeight + (int)(j+1)/2 * wallWidth;
+                System.out.println(x);
+                System.out.println(y);
                 Color terrainColor = terrainGrid[i][j];
                 g.setColor(terrainColor);
-                g.fillRect(x, y, rectWidth, rectHeight);
+                
+                int width = (i%2 == 0)? wallWidth : rectWidth; 
+                int height = (j%2 == 0)? wallWidth : rectWidth;
+                g.fillRect(x, y, width, height);
             }
         }
     }
