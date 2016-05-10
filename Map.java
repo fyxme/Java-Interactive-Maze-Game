@@ -1,8 +1,6 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -50,6 +48,7 @@ public class Map extends JPanel implements KeyListener{
     	
     	this.terrainGrid = new Color[(DEFAULT_WIDTH * 2 + 1)][(DEFAULT_HEIGHT * 2 + 1)];
 
+    	System.out.println(gi.getMazeAsString());
     	updateGrid(gi.getMazeAsString());
  
         int preferredWidth = (DEFAULT_WIDTH * 2 + 1) * PREFERRED_GRID_SIZE_PIXELS;
