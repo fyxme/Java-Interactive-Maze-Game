@@ -61,11 +61,13 @@ public class Map extends JPanel implements KeyListener{
     	int j = 0;
     	for (String s : maze.split("\n")) {
     		j = 0;
-    		for (String c : s.split("")) {
-    			if (c.equals("+") || c.equals("-") || c.equals("|")) {
+    		char[] chars = s.toCharArray();
+    		for (char c : chars) {
+    			System.out.println("string: " + (char)c + " j: " + j + " i: " + i);
+    			if (c == '+' || c == '-' || c == '|') {
     				// wall
     				this.terrainGrid[j][i] = BLACK;
-    			} else if (c.equals("P")) {
+    			} else if (c == 'P') {
     				// player
     				this.terrainGrid[j][i] = RED;
     			} else {
