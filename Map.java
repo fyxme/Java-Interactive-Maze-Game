@@ -63,7 +63,6 @@ public class Map extends JPanel implements KeyListener{
     		j = 0;
     		char[] chars = s.toCharArray();
     		for (char c : chars) {
-    			System.out.println("string: " + (char)c + " j: " + j + " i: " + i);
     			if (c == '+' || c == '-' || c == '|') {
     				// wall
     				this.terrainGrid[j][i] = BLACK;
