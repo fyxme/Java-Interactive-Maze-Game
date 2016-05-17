@@ -43,6 +43,7 @@ public class Player {
 	public boolean moveLeft() {
 		if (tile.getLeft() != null && !tile.getLeft().isWall()) {
 			tile = tile.getLeft().getConnectedTile(tile);
+			tile.visit();
 			return true;
 		}
 		return false;
@@ -55,6 +56,7 @@ public class Player {
 	public boolean moveRight() {
 		if (tile.getRight() != null && !tile.getRight().isWall()) {
 			tile = tile.getRight().getConnectedTile(tile);
+			tile.visit();
 			return true;
 		}
 		return false;
@@ -67,6 +69,7 @@ public class Player {
 	public boolean moveUp() {
 		if (tile.getUp() != null && !tile.getUp().isWall()) {
 			tile = tile.getUp().getConnectedTile(tile);
+			tile.visit();
 			return true;
 		}
 		return false;
@@ -79,6 +82,7 @@ public class Player {
 	public boolean moveDown() {
 		if (tile.getDown() != null && !tile.getDown().isWall()) {
 			tile = tile.getDown().getConnectedTile(tile);
+			tile.visit();
 			return true;
 		}
 		return false;

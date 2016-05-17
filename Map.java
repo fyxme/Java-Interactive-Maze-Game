@@ -13,9 +13,10 @@ public class Map extends JPanel implements KeyListener{
 	private static final int RIGHT = 1;
 	private static final int UP = 2;
 	private static final int DOWN = 3;
-    public static final Color WHITE = Color.decode("#E0F2F1");
+    public static final Color WHITE = Color.WHITE;
     public static final Color BLACK = Color.decode("#3E2723");
     public static final Color RED = Color.decode("#F44336");
+    public static final Color PATH = Color.decode("#DCEDC8");
     
     public static final Color[] TERRAIN = {
         BLACK,
@@ -29,8 +30,8 @@ public class Map extends JPanel implements KeyListener{
     public static final int WALL_WIDTH = 20;
 
     GameInstance gi = null;
-	private static final int DEFAULT_WIDTH = 20;
-	private static final int DEFAULT_HEIGHT = 20;
+	private static final int DEFAULT_WIDTH = 40;
+	private static final int DEFAULT_HEIGHT = 40;
 	private static final String DEFAULT_NAME = "Ronin the Conqueror of Worlds";
     
     // In reality you will probably want a class here to represent a map tile,
@@ -69,6 +70,9 @@ public class Map extends JPanel implements KeyListener{
     			} else if (c == 'P') {
     				// player
     				this.terrainGrid[j][i] = RED;
+    			} else if (c == 'V') {
+    				// playable space that has been visited
+    				this.terrainGrid[j][i] = PATH;
     			} else {
     				// playable space
     				this.terrainGrid[j][i] = WHITE;
@@ -135,23 +139,23 @@ public class Map extends JPanel implements KeyListener{
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		char c = e.getKeyChar();
-		if (c == 'a')
+		int keyCode = e.getKeyCode();
+		if (keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_LEFT)
         	gi.move(LEFT);
-        else if (c == 'd')
+        else if (keyCode == KeyEvent.VK_D || keyCode == KeyEvent.VK_RIGHT)
         	gi.move(RIGHT);
-        else if (c == 'w')
+        else if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_UP)
         	gi.move(UP);
-        else if (c == 's')
+        else if (keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_DOWN)
         	gi.move(DOWN);
 		
-		System.out.println(c);
+		System.out.println(e.getKeyChar());
 		
 		// update maze
 		updateGrid(gi.getMazeAsString());
