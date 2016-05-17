@@ -39,6 +39,7 @@ public class GameDisplay {
      * this method should be invoked from the
      * event-dispatching thread.
      */
+
     private static void createAndShowGUI() {
         //Create and set up the window.
         JFrame frame = new JFrame("TopLevelDemo");
@@ -58,6 +59,7 @@ public class GameDisplay {
         //Set the menu bar and add the label to the content pane.
         frame.setJMenuBar(greenMenuBar);
         frame.getContentPane().add(yellowLabel, BorderLayout.CENTER);
+
 
         //Display the window.
         frame.pack();
