@@ -1,5 +1,4 @@
-diary.pl
-diary.txt
+diary.*
 get_diary.pl
 getDiary.pl
 *.class

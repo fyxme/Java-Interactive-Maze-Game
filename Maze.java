@@ -10,9 +10,15 @@ import java.util.Stack;
  */
 public class Maze {
 	private Tile start_tile = null;
+	private Tile[][] maze = null;
+	private int width,height = 0;
+	
 	
 	public Maze (int width, int height) {
+		this.maze = new Tile[width][height];
 		// initialise maze
+		this.width = width;
+		this.height = height;
 		initialiseMaze(width,height);
 		generateMaze();
 	}
@@ -20,10 +26,11 @@ public class Maze {
 	private void initialiseMaze( int width, int height) {
 		
 		Tile[][] temp = new Tile[width][height];
-		
+
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				Tile n = new Tile();
+				maze[x][y] = n;
 				Connection c = null;
 				temp[x][y] = n;
 				
@@ -46,6 +53,30 @@ public class Maze {
 		start_tile = temp[0][0]; // keep start tile only
 		
 		temp = null;
+	}
+	
+	public String getMazeFromArray(Tile player_pos) {
+		String ret = "";
+		
+		for (int z = 0; z < this.width; z++)
+			ret += "+-";
+		
+		ret += "+\n";
+		
+		for (int y = 0; y < this.height; y++) {
+			ret += "|"; // first wall on line
+			String temp = "+";
+			for (int x = 0; x < this.width; x++) {
+				// current tile
+				ret += player_pos == maze[x][y]? "P" : " ";
+				// right wall
+				ret += "";
+				// bottom wall
+				temp += (maze[x][y].getDown() != null && !maze[x][y].getDown().isWall())? " +" : "-+";
+			}
+			ret += "\n" + temp + "\n";
+		}
+		return ret;
 	}
 	
 	private int getRandBetween(int a, int b) {
