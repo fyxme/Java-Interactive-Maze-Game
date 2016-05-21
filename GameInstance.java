@@ -20,7 +20,7 @@ public class GameInstance {
 		
 		this.player = new Player(name);
 		
-		this.player.setPosition(this.maze.getStartTile());
+		this.player.setPosition(this.maze.getEndTile(this.maze.getStartTile()));
 	}
 
 	/**

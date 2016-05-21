@@ -149,20 +149,33 @@ public class Maze {
 		// print tile
 		if (current == player_pos) {
 			l1 += "P";
+		} else if (current.hasBeenVisited()) {
+			l1 += "V";
 		} else {
 			l1 += " ";
 		}
 		
 		// print below wall
 		if (current.getDown() != null && !current.getDown().isWall()) {
-			l2 += " ";
+			if (current.getDown().getConnectedTile(current).hasBeenVisited()
+				&& current.hasBeenVisited()) {
+				l2 += "V";
+			} else {
+				l2 += " ";
+			}
 		} else {
 			l2 += "-";
 		}
 		
 		if (current.getRight() != null) {
+			// side wall
 			if (!current.getRight().isWall()) {
-				l1 += " ";
+				if (current.getRight().getConnectedTile(current).hasBeenVisited()
+					&& current.hasBeenVisited()) {
+					l1 += "V";
+				} else {
+					l1 += " ";
+				}
 				l2 += "+";
 			} else {
 				l1 += "|";
@@ -206,7 +219,18 @@ public class Maze {
 	public Tile getStartTile() {
 		return this.start_tile;
 	}
-
+	
+	public Tile getEndTile(Tile c) {
+		
+		if (c.getDown() != null) 
+			return getEndTile(c.getDown().getConnectedTile(c));
+		
+		if (c.getRight() != null)
+			return getEndTile(c.getRight().getConnectedTile(c));
+		
+		return c;
+	}
+	
 	public String getMazeAsString(Tile position) {
 		return printMaze(position);
 	}
