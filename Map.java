@@ -16,7 +16,8 @@ public class Map extends JPanel implements KeyListener{
     public static final Color WHITE = Color.WHITE;
     public static final Color BLACK = Color.decode("#3E2723");
     public static final Color RED = Color.decode("#F44336");
-    public static final Color PATH = Color.decode("#DCEDC8");
+    public static final Color PATH1 = Color.decode("#DCEDC8");
+    public static final Color PATH2 = Color.decode("#FFCCBC");
     
     public static final Color[] TERRAIN = {
         BLACK,
@@ -72,7 +73,10 @@ public class Map extends JPanel implements KeyListener{
     				this.terrainGrid[j][i] = RED;
     			} else if (c == 'V') {
     				// playable space that has been visited
-    				this.terrainGrid[j][i] = PATH;
+    				this.terrainGrid[j][i] = PATH1;
+    			} else if (c == 'v') {
+    				// playable space that has been backtracked
+    				this.terrainGrid[j][i] = PATH2;
     			} else {
     				// playable space
     				this.terrainGrid[j][i] = WHITE;

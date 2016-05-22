@@ -116,7 +116,7 @@ public class MainMenu extends JPanel {
         // http://docs.oracle.com/javase/tutorial/uiswing/concurrency/initial.html
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                JFrame frame = new JFrame("BATTLEFIELD ONE");
+                JFrame frame = new JFrame("Battlefield ONE: coming Soon\u2122");
                 MainMenu map = new MainMenu();
                 frame.add(map);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -12,7 +12,7 @@ public class Tile {
 	private Connection left = null;
 	private Connection up = null;
 	private Connection down = null;
-	private boolean visited = false;
+	private int visited = 0;
 	
 	/**
 	 * @return the left tile connected to this tile
@@ -21,12 +21,12 @@ public class Tile {
 		return this.left;
 	}
 	
-	public boolean hasBeenVisited() {
+	public int hasBeenVisited() {
 		return this.visited;
 	}
 	
 	public void visit() {
-		this.visited = true;
+		this.visited++;
 	}
 	
 	/**

@@ -58,24 +58,78 @@ public class Maze {
 	public String getMazeFromArray(Tile player_pos) {
 		String ret = "";
 		
+		//print top wall
 		for (int z = 0; z < this.width; z++)
 			ret += "+-";
-		
 		ret += "+\n";
-		
+		//print the rest
 		for (int y = 0; y < this.height; y++) {
 			ret += "|"; // first wall on line
 			String temp = "+";
 			for (int x = 0; x < this.width; x++) {
 				// current tile
-				ret += player_pos == maze[x][y]? "P" : " ";
+				if(maze[x][y] == player_pos) {
+					ret += "P";
+				} else if(maze[x][y].hasBeenVisited() > 0) {
+					if (maze[x][y].hasBeenVisited()%2 == 1) {
+						ret += "V";
+					} else {
+						ret += "v";
+					}
+				} else {
+					ret += " ";
+				}
 				// right wall
-				ret += "";
+				if (maze[x][y].getRight() != null && !maze[x][y].getRight().isWall()) {
+					// stupid cases.... checks if the player is ahead of it so it can colour in the walls between the current and the player	
+					if( ((maze[x][y].hasBeenVisited() > 0) || (maze[x][y] == player_pos))
+					 && ((maze[x][y].getRight().getConnectedTile(maze[x][y]).hasBeenVisited() > 0)
+					  || (maze[x][y].getRight().getConnectedTile(maze[x][y]) == player_pos)) ) {
+						
+						if( ((maze[x][y].hasBeenVisited()%2 == 1) || (maze[x][y] == player_pos))
+					     && ((maze[x][y].getRight().getConnectedTile(maze[x][y]).hasBeenVisited()%2 == 1)
+					      || (maze[x][y].getRight().getConnectedTile(maze[x][y]) == player_pos)) ) {
+							ret += "V";
+						} else {
+							ret += "v";
+						}
+					} else {
+						ret += " ";
+					}
+				} else {
+					ret += "|";
+				}
 				// bottom wall
-				temp += (maze[x][y].getDown() != null && !maze[x][y].getDown().isWall())? " +" : "-+";
+				if (maze[x][y].getDown() != null && !maze[x][y].getDown().isWall()) {
+					// stupid cases.... checks if the player is ahead of it so it can colour in the walls between the current and the player
+					if( ((maze[x][y].hasBeenVisited() > 0) || (maze[x][y] == player_pos))
+					 && ((maze[x][y].getDown().getConnectedTile(maze[x][y]).hasBeenVisited() > 0)
+					  || (maze[x][y].getDown().getConnectedTile(maze[x][y]) == player_pos)) ) {
+						
+						if( ((maze[x][y].hasBeenVisited()%2 == 1) || (maze[x][y] == player_pos))
+					     && ((maze[x][y].getDown().getConnectedTile(maze[x][y]).hasBeenVisited()%2 == 1)
+ 					      || (maze[x][y].getDown().getConnectedTile(maze[x][y]) == player_pos)) ) {
+							temp += "V+";
+						} else {
+							temp += "v+";
+						}
+					} else {
+						temp += " +";
+					}
+				} else {
+					temp += "-+";
+				}
 			}
 			ret += "\n" + temp + "\n";
 		}
+		return ret;
+	}
+	
+	public String getImmediateFromArray(Tile player_pos) {
+		//finding the position of the Player
+		
+		
+		String ret = "";
 		return ret;
 	}
 	
@@ -149,17 +203,25 @@ public class Maze {
 		// print tile
 		if (current == player_pos) {
 			l1 += "P";
-		} else if (current.hasBeenVisited()) {
-			l1 += "V";
+		} else if (current.hasBeenVisited() > 0) {
+			if (current.hasBeenVisited()%2 == 1) {
+				l1 += "V";
+			} else {
+				l1 += "v";
+			}
 		} else {
 			l1 += " ";
 		}
 		
 		// print below wall
 		if (current.getDown() != null && !current.getDown().isWall()) {
-			if (current.getDown().getConnectedTile(current).hasBeenVisited()
-				&& current.hasBeenVisited()) {
-				l2 += "V";
+			if ( (current.getDown().getConnectedTile(current).hasBeenVisited() > 0)
+			  && (current.hasBeenVisited() > 0) ) {
+				if (current.hasBeenVisited()%2 == 1) {
+					l1 += "V";
+				} else {
+					l1 += "v";
+				}
 			} else {
 				l2 += " ";
 			}
@@ -170,9 +232,13 @@ public class Maze {
 		if (current.getRight() != null) {
 			// side wall
 			if (!current.getRight().isWall()) {
-				if (current.getRight().getConnectedTile(current).hasBeenVisited()
-					&& current.hasBeenVisited()) {
-					l1 += "V";
+				if ( (current.getRight().getConnectedTile(current).hasBeenVisited() > 0 )
+				  && (current.hasBeenVisited() > 0) ) {
+					if (current.hasBeenVisited()%2 == 1) {
+						l1 += "V";
+					} else {
+						l1 += "v";
+					}
 				} else {
 					l1 += " ";
 				}
@@ -232,6 +298,7 @@ public class Maze {
 	}
 	
 	public String getMazeAsString(Tile position) {
-		return printMaze(position);
+		//return printMaze(position);
+		return getMazeFromArray(position);
 	}
 }

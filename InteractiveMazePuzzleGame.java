@@ -47,10 +47,7 @@ public class InteractiveMazePuzzleGame {
 	 * @precondition gi has been initialised and contains a maze
 	 */
 	public void play() {
-		System.out.println("To move Up type : w<enter>");
-		System.out.println("To move Down type : s<enter>");
-		System.out.println("To move Right type : d<enter>");
-		System.out.println("To move Left type : a<enter>");
+		System.out.println("To move use the arrow keys or WASD");
 		
 		gi.printMaze();
 		
