@@ -127,9 +127,96 @@ public class Maze {
 	
 	public String getImmediateFromArray(Tile player_pos) {
 		//finding the position of the Player
+		int playerX = 0, playerY = 0;
+		outerloop:
+		for (int y = 0; y < this.height; y++) {
+			for (int x = 0; x < this.width; x++) {
+				if(maze[x][y] == player_pos) {
+					playerX = x;
+					playerY = y;
+					break outerloop;
+				}
+			}
+		}
 		
-		
+		//printing around the player
 		String ret = "";
+		//print top wall
+		for (int z = 0; z < 5; z++)
+			ret += "+-";
+		ret += "+\n";
+		//print the rest
+		for (int y = playerY-2; y <= playerY+2; y++) {
+			ret += "|"; // first wall on line
+			String temp = "+";
+			for (int x = playerX-2; x <= playerX+2; x++) {
+				// current tile
+				if( (x >= this.width) || (x < 0) || (y >= this.height) || (y < 0) ) {
+					ret += "+";
+				} else {
+					if(maze[x][y] == player_pos) {
+						ret += "P";
+					} else if(maze[x][y].hasBeenVisited() > 0) {
+						if (maze[x][y].hasBeenVisited()%2 == 1) {
+							ret += "V";
+						} else {
+							ret += "v";
+						}
+					} else {
+						ret += " ";
+					}
+				}
+				// right wall
+				if( (x >= this.width) || (x < 0) || (y >= this.height) || (y < 0) ) {
+					ret += "+";
+				} else {
+					if (maze[x][y].getRight() != null && !maze[x][y].getRight().isWall()) {
+						// stupid cases.... checks if the player is ahead of it so it can colour in the walls between the current and the player	
+						if( ((maze[x][y].hasBeenVisited() > 0) || (maze[x][y] == player_pos))
+						 && ((maze[x][y].getRight().getConnectedTile(maze[x][y]).hasBeenVisited() > 0)
+						  || (maze[x][y].getRight().getConnectedTile(maze[x][y]) == player_pos)) ) {
+							
+							if( ((maze[x][y].hasBeenVisited()%2 == 1) || (maze[x][y] == player_pos))
+						     && ((maze[x][y].getRight().getConnectedTile(maze[x][y]).hasBeenVisited()%2 == 1)
+						      || (maze[x][y].getRight().getConnectedTile(maze[x][y]) == player_pos)) ) {
+								ret += "V";
+							} else {
+								ret += "v";
+							}
+						} else {
+							ret += " ";
+						}
+					} else {
+						ret += "|";
+					}
+				}
+				// bottom wall
+				if( (x >= this.width) || (x < 0) || (y >= this.height) || (y < 0) ) {
+					temp += "++";
+				} else {
+					if (maze[x][y].getDown() != null && !maze[x][y].getDown().isWall()) {
+						// stupid cases.... checks if the player is ahead of it so it can colour in the walls between the current and the player
+						if( ((maze[x][y].hasBeenVisited() > 0) || (maze[x][y] == player_pos))
+						 && ((maze[x][y].getDown().getConnectedTile(maze[x][y]).hasBeenVisited() > 0)
+						  || (maze[x][y].getDown().getConnectedTile(maze[x][y]) == player_pos)) ) {
+							
+							if( ((maze[x][y].hasBeenVisited()%2 == 1) || (maze[x][y] == player_pos))
+						     && ((maze[x][y].getDown().getConnectedTile(maze[x][y]).hasBeenVisited()%2 == 1)
+	 					      || (maze[x][y].getDown().getConnectedTile(maze[x][y]) == player_pos)) ) {
+								temp += "V+";
+							} else {
+								temp += "v+";
+							}
+						} else {
+							temp += " +";
+						}
+					} else {
+						temp += "-+";
+					}
+				}
+			}
+			ret += "\n" + temp + "\n";
+		}
 		return ret;
 	}
 	
@@ -298,7 +385,7 @@ public class Maze {
 	}
 	
 	public String getMazeAsString(Tile position) {
-		//return printMaze(position);
 		return getMazeFromArray(position);
+		//return getImmediateFromArray(position);
 	}
 }

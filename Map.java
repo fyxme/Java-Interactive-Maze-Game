@@ -24,15 +24,15 @@ public class Map extends JPanel implements KeyListener{
         WHITE
     };
     
-    public static final int NUM_ROWS = 20;
-    public static final int NUM_COLS = 20;
+    public static final int MAZE_ROWS = 20;
+    public static final int MAZE_COLS = 20;
 
     public static final int PREFERRED_GRID_SIZE_PIXELS = 20;
     public static final int WALL_WIDTH = 20;
 
     GameInstance gi = null;
-	private static final int DEFAULT_WIDTH = 40;
-	private static final int DEFAULT_HEIGHT = 40;
+	private static final int WINDOW_WIDTH = 20;
+	private static final int WINDOW_HEIGHT = 20;
 	private static final String DEFAULT_NAME = "Ronin the Conqueror of Worlds";
     
     // In reality you will probably want a class here to represent a map tile,
@@ -46,15 +46,15 @@ public class Map extends JPanel implements KeyListener{
     	addKeyListener(this);
     	setFocusable(true);
     	setFocusTraversalKeysEnabled(false);
-    	gi = new GameInstance(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_NAME);
+    	gi = new GameInstance(MAZE_ROWS, MAZE_COLS, DEFAULT_NAME);
     	
-    	this.terrainGrid = new Color[(DEFAULT_WIDTH * 2 + 1)][(DEFAULT_HEIGHT * 2 + 1)];
+    	this.terrainGrid = new Color[(WINDOW_WIDTH * 2 + 1)][(WINDOW_HEIGHT * 2 + 1)];
 
     	System.out.println(gi.getMazeAsString());
     	updateGrid(gi.getMazeAsString());
  
-        int preferredWidth = (DEFAULT_WIDTH * 2 + 1) * PREFERRED_GRID_SIZE_PIXELS;
-        int preferredHeight = (DEFAULT_HEIGHT * 2 + 1) * PREFERRED_GRID_SIZE_PIXELS;
+        int preferredWidth = (WINDOW_WIDTH * 2 + 1) * PREFERRED_GRID_SIZE_PIXELS;
+        int preferredHeight = (WINDOW_HEIGHT * 2 + 1) * PREFERRED_GRID_SIZE_PIXELS;
         setPreferredSize(new Dimension(preferredWidth, preferredHeight));
     }
 
@@ -95,21 +95,21 @@ public class Map extends JPanel implements KeyListener{
         g.clearRect(0, 0, getWidth(), getHeight());
         // Draw the grid
 //        DEFAULT_WIDTH = 20;
-        int rectWidth = (100 * getWidth())/(DEFAULT_WIDTH * 100 + 20 *  (DEFAULT_WIDTH + 1));
+        int rectWidth = (100 * getWidth())/(WINDOW_WIDTH * 100 + 20 *  (WINDOW_WIDTH + 1));
         
         // int rectWidth = (getHeight() - (DEFAULT_WIDTH + 1) * 20 * rectWidth / 100)/DEFAULT_WIDTH;
         // rectWidth * DEFAULT_WIDTH * 100 = 100 * getHeight() - 20 * rectWidth
         // rectWidth * DEFAULT_WIDTH * 100 + 20 * rectWidth = 100 * getHeight()
         // rectWidth = (100 * getHeight())/(DEFAULT_WIDTH * 100 + 20);
-        int rectHeight = (100 * getHeight())/(DEFAULT_HEIGHT * 100 + 20 *  (DEFAULT_HEIGHT + 1));
+        int rectHeight = (100 * getHeight())/(WINDOW_HEIGHT * 100 + 20 *  (WINDOW_HEIGHT + 1));
         // wall = 
         int wallWidth = 20 * rectWidth / 100;
         int wallHeight = 20 * rectHeight / 100;
 
         int x = 0;
         int y = 0;
-        for (int i = 0; i < DEFAULT_WIDTH * 2 + 1; i++) {
-            for (int j = 0; j < DEFAULT_HEIGHT * 2 + 1; j++) {
+        for (int i = 0; i < WINDOW_WIDTH * 2 + 1; i++) {
+            for (int j = 0; j < WINDOW_HEIGHT * 2 + 1; j++) {
                 // Upper left corner of this terrain rect
             	x = ((int)i/2) * rectWidth + (int)(i+1)/2 * wallHeight;
                 y = ((int)j/2) * rectHeight + (int)(j+1)/2 * wallWidth;
@@ -129,7 +129,7 @@ public class Map extends JPanel implements KeyListener{
         // http://docs.oracle.com/javase/tutorial/uiswing/concurrency/initial.html
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                JFrame frame = new JFrame("BATTLEFIELD ONE");
+                JFrame frame = new JFrame("BATTLEFIELD ONE     Soon\u2122");
                 Map map = new Map();
                 frame.addKeyListener(map.getKeyListeners()[0]);
                 frame.add(map);
