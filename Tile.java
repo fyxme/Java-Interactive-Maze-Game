@@ -25,8 +25,8 @@ public class Tile {
 		return this.visited;
 	}
 	
-	public void visit() {
-		this.visited++;
+	public void setVisit(int a) {
+		this.visited = a;
 	}
 	
 	/**

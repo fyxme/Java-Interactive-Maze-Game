@@ -4,7 +4,6 @@
  */
 public class Player {
 	private Tile tile;
-	private Tile previous;
 	private String name;
 	
 	/**
@@ -21,7 +20,6 @@ public class Player {
 	 * @param tile The tile which the player is being teleported to
 	 */
 	public void setPosition(Tile tile) {
-		this.previous = this.tile;
 		this.tile = tile;
 	}
 	
@@ -45,11 +43,11 @@ public class Player {
 	 */
 	public boolean moveLeft() {
 		if (tile.getLeft() != null && !tile.getLeft().isWall()) {
-			tile.visit();
-			if(tile.getLeft().getConnectedTile(tile) == previous) {
-				tile.visit();
+			if(tile.getLeft().getConnectedTile(tile).hasBeenVisited() == 1) {
+				tile.setVisit(2);
+			} else {
+				tile.setVisit(1);
 			}
-			previous = tile;
 			tile = tile.getLeft().getConnectedTile(tile);
 			return true;
 		}
@@ -62,11 +60,11 @@ public class Player {
 	 */
 	public boolean moveRight() {
 		if (tile.getRight() != null && !tile.getRight().isWall()) {
-			tile.visit();
-			if(tile.getRight().getConnectedTile(tile) == previous) {
-				tile.visit();
+			if(tile.getRight().getConnectedTile(tile).hasBeenVisited() == 1) {
+				tile.setVisit(2);
+			} else {
+				tile.setVisit(1);
 			}
-			previous = tile;
 			tile = tile.getRight().getConnectedTile(tile);
 			return true;
 		}
@@ -79,11 +77,11 @@ public class Player {
 	 */
 	public boolean moveUp() {
 		if (tile.getUp() != null && !tile.getUp().isWall()) {
-			tile.visit();
-			if(tile.getUp().getConnectedTile(tile) == previous) {
-				tile.visit();
+			if(tile.getUp().getConnectedTile(tile).hasBeenVisited() == 1) {
+				tile.setVisit(2);
+			} else {
+				tile.setVisit(1);
 			}
-			previous = tile;
 			tile = tile.getUp().getConnectedTile(tile);
 			return true;
 		}
@@ -96,11 +94,11 @@ public class Player {
 	 */
 	public boolean moveDown() {
 		if (tile.getDown() != null && !tile.getDown().isWall()) {
-			tile.visit();
-			if(tile.getDown().getConnectedTile(tile) == previous) {
-				tile.visit();
+			if(tile.getDown().getConnectedTile(tile).hasBeenVisited() == 1) {
+				tile.setVisit(2);
+			} else {
+				tile.setVisit(1);
 			}
-			previous = tile;
 			tile = tile.getDown().getConnectedTile(tile);
 			return true;
 		}
