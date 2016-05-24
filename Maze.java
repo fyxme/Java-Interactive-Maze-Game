@@ -125,7 +125,7 @@ public class Maze {
 		return ret;
 	}
 	
-	public String getImmediateFromArray(Tile player_pos) {
+	public String getImmediateFromArray(Tile player_pos, int sightRadius) {
 		//finding the position of the Player
 		int playerX = 0, playerY = 0;
 		outerloop:
@@ -146,10 +146,10 @@ public class Maze {
 			ret += "+-";
 		ret += "+\n";
 		//print the rest
-		for (int y = playerY-2; y <= playerY+2; y++) {
+		for (int y = playerY-sightRadius; y <= playerY+sightRadius; y++) {
 			ret += "|"; // first wall on line
 			String temp = "+";
-			for (int x = playerX-2; x <= playerX+2; x++) {
+			for (int x = playerX-sightRadius; x <= playerX+sightRadius; x++) {
 				// current tile
 				if( (x >= this.width) || (x < 0) || (y >= this.height) || (y < 0) ) {
 					ret += "+";
@@ -385,7 +385,7 @@ public class Maze {
 	}
 	
 	public String getMazeAsString(Tile position) {
-		return getMazeFromArray(position);
-		//return getImmediateFromArray(position);
+		//return getMazeFromArray(position);
+		return getImmediateFromArray(position, 3);
 	}
 }

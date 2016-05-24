@@ -24,15 +24,15 @@ public class Map extends JPanel implements KeyListener{
         WHITE
     };
     
-    public static final int MAZE_ROWS = 20;
-    public static final int MAZE_COLS = 20;
+    public static final int MAZE_ROWS = 55;
+    public static final int MAZE_COLS = 55;
 
     public static final int PREFERRED_GRID_SIZE_PIXELS = 20;
     public static final int WALL_WIDTH = 20;
 
     GameInstance gi = null;
-	private static final int WINDOW_WIDTH = 20;
-	private static final int WINDOW_HEIGHT = 20;
+	private static final int WINDOW_WIDTH = 7;
+	private static final int WINDOW_HEIGHT = 7;
 	private static final String DEFAULT_NAME = "Ronin the Conqueror of Worlds";
     
     // In reality you will probably want a class here to represent a map tile,
