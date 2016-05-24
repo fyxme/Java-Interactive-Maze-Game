@@ -13,7 +13,9 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
 import java.io.File;
-
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -28,8 +30,11 @@ public class MainMenu extends JPanel {
 	private static final int DEFAULT_WIDTH = 20;
 	private static final int DEFAULT_HEIGHT = 20;
 	private static final String DEFAULT_NAME = "Ronin the Conqueror of Worlds";
+
+    private GameDisplay mainDisplay;
+
 	BufferedImage backgroundImage;
-	 public MainMenu(){
+	 public MainMenu(GameDisplay mainDisplay){
 //    	this.terrainGrid = new Color[NUM_ROWS][NUM_COLS];
         // generate new game instance
     	setFocusable(true);
@@ -40,6 +45,7 @@ public class MainMenu extends JPanel {
         int preferredHeight = (DEFAULT_HEIGHT * 2 + 1) * PREFERRED_GRID_SIZE_PIXELS;
         setPreferredSize(new Dimension(preferredWidth, preferredHeight));
 
+        this.mainDisplay = mainDisplay;
 
         try {                
         	this.backgroundImage = ImageIO.read(new File("bliss.jpg"));
@@ -74,7 +80,8 @@ public class MainMenu extends JPanel {
    			public void mouseClicked(MouseEvent e) {
    				if (play.contains(e.getX(), e.getY())){
         			System.out.println("clicked play");
-                    firePropertyChange("Map", null, 1);
+                    firePropertyChange("Map", 0 , 0);
+                    mainDisplay.swapPanel("Map");
         		}
 
         		if (settings.contains(e.getX(), e.getY())){
@@ -112,7 +119,7 @@ public class MainMenu extends JPanel {
 	    g.setFont(font);
 	    g.drawString(s, r.x + a, r.y + b);
 	}
-
+    /*
     public static void main(String[] args) {
         // http://docs.oracle.com/javase/tutorial/uiswing/concurrency/initial.html
         SwingUtilities.invokeLater(new Runnable() {
@@ -127,4 +134,5 @@ public class MainMenu extends JPanel {
             }
         });
     }
+    */
 }

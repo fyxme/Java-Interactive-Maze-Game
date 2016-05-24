@@ -36,23 +36,29 @@ import java.beans.PropertyChangeListener;
 
 /* TopLevelDemo.java requires no other files. */
 public class GameDisplay {
+    private JPanel cards;
+
+    public GameDisplay(){
+        createAndShowGUI();
+    }
     /**
      * Create the GUI and show it.  For thread safety,
      * this method should be invoked from the
      * event-dispatching thread.
      */
 
-    private static void createAndShowGUI() {
+    private void createAndShowGUI() {
         //Create and set up the window.
         JFrame frame = new JFrame("TopLevelDemo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
         //Create the menu bar.  Make it have a green background.
-        JMenuBar greenMenuBar = new JMenuBar();
+        /*JMenuBar greenMenuBar = new JMenuBar();
         greenMenuBar.setOpaque(true);
         greenMenuBar.setPreferredSize(new Dimension(200, 20));
-
+        */
+        
         //Create a yellow label to put in the content pane.
         JLabel yellowLabel = new JLabel();
         yellowLabel.setOpaque(true);
@@ -60,15 +66,17 @@ public class GameDisplay {
         yellowLabel.setPreferredSize(new Dimension(200, 180));
 
         //Set the menu bar and add the label to the content pane.
-        frame.setJMenuBar(greenMenuBar);
+        //frame.setJMenuBar(greenMenuBar);
         //frame.getContentPane().add(yellowLabel, BorderLayout.CENTER);
 
-        final JPanel cards = new JPanel(new CardLayout());
+        cards = new JPanel(new CardLayout());
 
-        cards.add(new MainMenu(), "MainMenu");
-        cards.add(new Map(), "Map");
+        cards.add(new MainMenu(this), "MainMenu");
+        JPanel map = new Map();
+        map.setFocusable(true);
+        cards.add(map, "Map");
         frame.getContentPane().add(cards);
-
+        
         
         cards.addPropertyChangeListener(new PropertyChangeListener(){
             
@@ -86,13 +94,26 @@ public class GameDisplay {
         frame.setVisible(true);
     }
 
+    public void swapPanel(String panelName){
+        System.out.println("dfjlsdjfk");
+        CardLayout cl = (CardLayout)(cards.getLayout());
+        cl.show(cards, panelName);
+        for(Component c : cards.getComponents()){
+            if(c.isVisible()){
+                c.setFocusable(true);
+                c.requestFocusInWindow();
+            }
+        }
+        System.out.println("switching to: " + panelName);
+    }
+
 
     public static void main(String[] args) {
         //Schedule a job for the event-dispatching thread:
         //creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                createAndShowGUI();
+                GameDisplay g = new GameDisplay();
             //inloop();
             }
         });
