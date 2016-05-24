@@ -74,6 +74,7 @@ public class MainMenu extends JPanel {
    			public void mouseClicked(MouseEvent e) {
    				if (play.contains(e.getX(), e.getY())){
         			System.out.println("clicked play");
+                    firePropertyChange("Map", null, 1);
         		}
 
         		if (settings.contains(e.getX(), e.getY())){

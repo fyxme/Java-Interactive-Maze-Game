@@ -31,6 +31,8 @@
 
 import java.awt.*;
 import javax.swing.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /* TopLevelDemo.java requires no other files. */
 public class GameDisplay {
@@ -45,6 +47,7 @@ public class GameDisplay {
         JFrame frame = new JFrame("TopLevelDemo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+
         //Create the menu bar.  Make it have a green background.
         JMenuBar greenMenuBar = new JMenuBar();
         greenMenuBar.setOpaque(true);
@@ -58,13 +61,31 @@ public class GameDisplay {
 
         //Set the menu bar and add the label to the content pane.
         frame.setJMenuBar(greenMenuBar);
-        frame.getContentPane().add(yellowLabel, BorderLayout.CENTER);
+        //frame.getContentPane().add(yellowLabel, BorderLayout.CENTER);
 
+        final JPanel cards = new JPanel(new CardLayout());
 
+        cards.add(new MainMenu(), "MainMenu");
+        cards.add(new Map(), "Map");
+        frame.getContentPane().add(cards);
+
+        
+        cards.addPropertyChangeListener(new PropertyChangeListener(){
+            
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                System.out.println("dfjlsdjfk");
+                CardLayout cl = (CardLayout)(cards.getLayout());
+                cl.show(cards, (String)evt.getPropertyName());
+                System.out.println("switching to: " + (String)evt.getPropertyName());
+                }
+        });
+        
         //Display the window.
         frame.pack();
         frame.setVisible(true);
     }
+
 
     public static void main(String[] args) {
         //Schedule a job for the event-dispatching thread:
@@ -72,6 +93,7 @@ public class GameDisplay {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();
+            //inloop();
             }
         });
     }
