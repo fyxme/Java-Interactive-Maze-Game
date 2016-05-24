@@ -25,8 +25,8 @@ public class Map extends JPanel implements KeyListener{
         WHITE
     };
     
-    public static final int MAZE_ROWS = 59;
-    public static final int MAZE_COLS = 59;
+    public static final int MAZE_ROWS = 20;
+    public static final int MAZE_COLS = 20;
 
     public static final int PREFERRED_GRID_SIZE_PIXELS = 20;
     public static final int WALL_WIDTH = 20;
