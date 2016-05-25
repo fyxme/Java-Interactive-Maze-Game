@@ -26,8 +26,8 @@ public class MainMenu extends JPanel {
 	public MainMenu(GameDisplay displayController){
     	setFocusable(true);
 
-        int preferredWidth = 480;
-        int preferredHeight = 480;
+        int preferredWidth = 473;
+        int preferredHeight = 473;
 
         System.out.println(preferredHeight + ", " + preferredWidth);
         setPreferredSize(new Dimension(preferredWidth, preferredHeight));
