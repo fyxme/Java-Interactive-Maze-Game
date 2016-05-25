@@ -21,6 +21,25 @@ public class Tile {
 		return this.left;
 	}
 	
+	/**
+	 * method to return a specific Connection
+	 * @param direction
+	 * @return the Connection specified by the direction parameter
+	 */
+	public Connection getConnection(int direction) {
+		Connection connection = null;
+		if(direction == 0) {
+			connection = this.left;
+		}else if(direction == 1) {
+			connection = this.right;
+		}else if(direction == 2) {
+			connection = this.up;
+		}else if(direction == 3) {
+			connection = this.down;
+		}
+		return connection;
+	}
+	
 	public int hasBeenVisited() {
 		return this.visited;
 	}
