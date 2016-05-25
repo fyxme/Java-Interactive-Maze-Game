@@ -35,15 +35,17 @@ public class GameInstance {
 	 * @param mv the integer corresponding to the move
 	 */
 	public void move(int mv) {
-		if (mv == LEFT) {
-			player.moveLeft();
-		} else if (mv == RIGHT) {
-			player.moveRight();
-		} else if (mv == UP) {
-			player.moveUp();
-		} else if (mv == DOWN) {
-			player.moveDown();
-		}
+		player.move(mv);
+		return;
+//		if (mv == LEFT) {
+//			player.moveLeft();
+//		} else if (mv == RIGHT) {
+//			player.moveRight();
+//		} else if (mv == UP) {
+//			player.moveUp();
+//		} else if (mv == DOWN) {
+//			player.moveDown();
+//		}
 	}
 
 	public String getMazeAsString() {

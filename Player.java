@@ -49,6 +49,26 @@ public class Player {
 	 * Attempts to move to the left of the current tile
 	 * @return true if the player is able to move else returns false
 	 */
+	public boolean move(int mv) {
+		Tile t = tile.getConnection(mv);
+		if (t != null && !t.isWall()) {
+			if(t.getConnectedTile(tile).hasBeenVisited() == 1) {
+				tile.setVisit(2);
+			} else {
+				tile.setVisit(1);
+			}
+			tile = t;
+			steps_taken++;
+			return true;
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * Attempts to move to the left of the current tile
+	 * @return true if the player is able to move else returns false
+	 */
 	public boolean moveLeft() {
 		if (tile.getLeft() != null && !tile.getLeft().isWall()) {
 			if(tile.getLeft().getConnectedTile(tile).hasBeenVisited() == 1) {
