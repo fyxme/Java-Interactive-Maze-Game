@@ -49,12 +49,32 @@ public class Map extends JPanel implements KeyListener{
     	addKeyListener(this);
     	setFocusable(true);
     	setFocusTraversalKeysEnabled(false);
-    	gi = new GameInstance(MAZE_ROWS, MAZE_COLS, DEFAULT_NAME);
+    	gi = new GameInstance(MAZE_ROWS, MAZE_COLS, 3, DEFAULT_NAME);
     	
     	this.terrainGrid = new Color[(WINDOW_WIDTH * 2 + 1)][(WINDOW_HEIGHT * 2 + 1)];
 
     	System.out.println(gi.getMazeAsString());
     	updateGrid(gi.getMazeAsString());
+ 
+        int preferredWidth = (WINDOW_WIDTH * 2 + 1) * PREFERRED_GRID_SIZE_PIXELS;
+        int preferredHeight = (WINDOW_HEIGHT * 2 + 1) * PREFERRED_GRID_SIZE_PIXELS;
+        setPreferredSize(new Dimension(preferredWidth, preferredHeight));
+
+        this.displayController = displayController;
+    }
+
+    public Map(GameDisplay displayController, int mazeSize, int sight){
+//      this.terrainGrid = new Color[NUM_ROWS][NUM_COLS];
+        // generate new game instance
+        addKeyListener(this);
+        setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
+        gi = new GameInstance(mazeSize, mazeSize, sight, DEFAULT_NAME);
+        
+        this.terrainGrid = new Color[(WINDOW_WIDTH * 2 + 1)][(WINDOW_HEIGHT * 2 + 1)];
+
+        System.out.println(gi.getMazeAsString());
+        updateGrid(gi.getMazeAsString());
  
         int preferredWidth = (WINDOW_WIDTH * 2 + 1) * PREFERRED_GRID_SIZE_PIXELS;
         int preferredHeight = (WINDOW_HEIGHT * 2 + 1) * PREFERRED_GRID_SIZE_PIXELS;

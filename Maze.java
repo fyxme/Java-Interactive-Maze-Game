@@ -23,6 +23,16 @@ public class Maze {
 		initialiseMaze(width,height);
 		generateMaze();
 	}
+
+	public Maze (int width, int height, int sight) {
+		this.maze = new Tile[width][height];
+		// initialise maze
+		this.width = width;
+		this.height = height;
+		initialiseMaze(width,height);
+		generateMaze();
+		DEFAULT_SIGHT = sight;
+	}
 	
 	private void initialiseMaze( int width, int height) {
 		

@@ -28,7 +28,7 @@ public class InteractiveMazePuzzleGame {
 	private static final int DOWN = 3;
 	
 	public InteractiveMazePuzzleGame() {
-		gi = new GameInstance(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_NAME);
+		gi = new GameInstance(DEFAULT_WIDTH, DEFAULT_HEIGHT, 3,  DEFAULT_NAME);
 	}
 	
 	/**

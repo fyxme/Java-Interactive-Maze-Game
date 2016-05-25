@@ -15,8 +15,8 @@ public class GameInstance {
 	private static final int UP = 2;
 	private static final int DOWN = 3;
 	
-	public GameInstance (int width, int height, String name) {
-		this.maze = new Maze(width,height);
+	public GameInstance (int width, int height, int sight, String name) {
+		this.maze = new Maze(width,height,sight);
 		
 		this.player = new Player(name);
 		
