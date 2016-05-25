@@ -91,7 +91,9 @@ public class GameDisplay {
         
         //Display the window.
         frame.pack();
+        frame.setResizable(false);
         frame.setVisible(true);
+        
     }
 
     public void swapPanel(String panelName){

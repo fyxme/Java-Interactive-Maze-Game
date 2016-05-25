@@ -138,6 +138,7 @@ public class Map extends JPanel implements KeyListener{
                 frame.pack();
                 frame.setVisible(true);
                 frame.setFocusable(true);
+                frame.setResizable(false);
             }
         });
     }
