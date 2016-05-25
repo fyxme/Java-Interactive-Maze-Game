@@ -310,4 +310,36 @@ public class Maze {
 		
 		return c;
 	}
+	
+	public int getRedCount() {
+		int c = 0;
+		for(int i = 0; i < this.width; i++) {
+			for(int j = 0; j < this.height; j++) {
+				if (maze[i][j].hasBeenVisited() == 2) {
+					c++;
+				}
+			}
+		}
+		return c;
+	}
+	
+	public int getGreenCount() {
+		int c = 0;
+		for(int i = 0; i < this.width; i++) {
+			for(int j = 0; j < this.height; j++) {
+				if (maze[i][j].hasBeenVisited() == 1) {
+					c++;
+				}
+			}
+		}
+		return c;
+	}
+	
+	public int getUnvisitedCount() {
+		return this.getTotalCount() - this.getGreenCount() - this.getRedCount();
+	}
+	
+	public int getTotalCount() {
+		return this.width * this.height;
+	}
 }

@@ -26,10 +26,10 @@ public class Map extends JPanel implements KeyListener{
     
     GameInstance gi = null;
     
-    private int block_pixel_dimension;
+    private int block_pixel_dimension,wall_pixel_dimension;
 	private int sight;
-	private int w_width;
-	private int w_height;
+	private int dimension;
+	private int wallFraction = 8;
 	private static final String DEFAULT_NAME = "Ronin the Conqueror of Worlds";
     
     // In reality you will probably want a class here to represent a map tile,
@@ -37,33 +37,33 @@ public class Map extends JPanel implements KeyListener{
     // game world.  Keeping simple just to illustrate.
     private Color[][] terrainGrid;
 
-    public Map(int rows, int cols, int sight){
+    
+    public Map(int dimension, int sight){
     	this.sight = sight;
+		this.dimension = dimension;
     	
-    	if(sight == 0) {
-    		w_width = cols;
-    		w_height = rows;
-    		block_pixel_dimension = 20;
-    	}else {
-    		w_width = sight * 2 + 1;
-    		w_height = sight * 2 + 1;
-    		block_pixel_dimension = 300/(sight*2+1);
+		int windowDimension = 700;
+		
+    	if(sight > 0) {
+    		this.dimension = sight*2+1;
     	}
+    	
+    	wall_pixel_dimension = windowDimension/(this.dimension*wallFraction);
+    	block_pixel_dimension = wall_pixel_dimension*wallFraction;
+		windowDimension = (block_pixel_dimension*(this.dimension))+wall_pixel_dimension;
     	
         // generate new game instance
     	addKeyListener(this);
     	setFocusable(true);
     	setFocusTraversalKeysEnabled(false);
-    	gi = new GameInstance(rows, cols, DEFAULT_NAME);
+    	gi = new GameInstance(dimension, dimension, DEFAULT_NAME);
     	
-    	this.terrainGrid = new Color[(w_height * 2 + 1)][(w_width * 2 + 1)];
+    	this.terrainGrid = new Color[(dimension * 2 + 1)][(dimension * 2 + 1)];
 
     	System.out.println(gi.printMaze(this.sight));
     	updateGrid(gi.printMaze(this.sight));
  
-        int preferredWidth = (w_width * 2 + 1) * block_pixel_dimension;
-        int preferredHeight = (w_height * 2 + 1) * block_pixel_dimension;
-        setPreferredSize(new Dimension(preferredWidth, preferredHeight));
+        setPreferredSize(new Dimension(windowDimension, windowDimension));
     }
 
     public void updateGrid(String maze) {
@@ -102,23 +102,21 @@ public class Map extends JPanel implements KeyListener{
         // Clear the board
         g.clearRect(0, 0, getWidth(), getHeight());
         // Draw the grid
-        int rectWidth = (100 * getWidth())/(w_width * 100 + block_pixel_dimension *  (w_width + 1));
-        int rectHeight = (100 * getHeight())/(w_height * 100 + block_pixel_dimension *  (w_height + 1));
-        int wallWidth = block_pixel_dimension/2 * rectWidth / 100;
-        int wallHeight = block_pixel_dimension/2 * rectHeight / 100;
+        
+        int rectDimension = block_pixel_dimension - wall_pixel_dimension;
 
         int x = 0;
         int y = 0;
-        for (int i = 0; i < w_width * 2 + 1; i++) {
-            for (int j = 0; j < w_height * 2 + 1; j++) {
+        for (int i = 0; i < dimension * 2 + 1; i++) {
+            for (int j = 0; j < dimension * 2 + 1; j++) {
                 // Upper left corner of this terrain rect
-            	x = ((int)i/2) * rectWidth + (int)(i+1)/2 * wallHeight;
-                y = ((int)j/2) * rectHeight + (int)(j+1)/2 * wallWidth;
+            	x = ((int)i/2) * rectDimension + (int)(i+1)/2 * wall_pixel_dimension;
+                y = ((int)j/2) * rectDimension + (int)(j+1)/2 * wall_pixel_dimension;
                 Color terrainColor = terrainGrid[i][j];
                 g.setColor(terrainColor);
                 
-                int width = (i%2 == 0)? wallWidth : rectWidth; 
-                int height = (j%2 == 0)? wallWidth : rectWidth;
+                int width = (i%2 == 0)? wall_pixel_dimension : rectDimension; 
+                int height = (j%2 == 0)? wall_pixel_dimension : rectDimension;
                 g.fillRect(x, y, width, height);
             }
         }
@@ -129,7 +127,8 @@ public class Map extends JPanel implements KeyListener{
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 JFrame frame = new JFrame("BATTLEFIELD ONE     Soon\u2122");
-                Map map = new Map(20,20,3);
+                Map map = new Map(30,5);
+                frame.setResizable(false);
                 frame.addKeyListener(map.getKeyListeners()[0]);
                 frame.add(map);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
