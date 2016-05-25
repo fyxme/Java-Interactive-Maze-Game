@@ -36,16 +36,6 @@ public class GameInstance {
 	 */
 	public void move(int mv) {
 		player.move(mv);
-		return;
-//		if (mv == LEFT) {
-//			player.moveLeft();
-//		} else if (mv == RIGHT) {
-//			player.moveRight();
-//		} else if (mv == UP) {
-//			player.moveUp();
-//		} else if (mv == DOWN) {
-//			player.moveDown();
-//		}
 	}
 
 	public String getMazeAsString() {
