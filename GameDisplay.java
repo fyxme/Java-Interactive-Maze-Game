@@ -37,6 +37,8 @@ import java.beans.PropertyChangeListener;
 /* TopLevelDemo.java requires no other files. */
 public class GameDisplay {
     private JPanel cards;
+    private int mazeSize = 20;
+    private int sight = 0;
 
     public GameDisplay(){
         createAndShowGUI();
@@ -46,6 +48,7 @@ public class GameDisplay {
      * this method should be invoked from the
      * event-dispatching thread.
      */
+
 
     private void createAndShowGUI() {
         //Create and set up the window.
@@ -79,6 +82,10 @@ public class GameDisplay {
         System.out.println("switching to: " + panelName);
     }
 
+    public void setMazeSettings(int mazeSize, int sight){
+        this.mazeSize = mazeSize;
+        this.sight = sight;
+    }
 
     public static void main(String[] args) {
         //Schedule a job for the event-dispatching thread:

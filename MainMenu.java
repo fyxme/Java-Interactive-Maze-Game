@@ -58,9 +58,9 @@ public class MainMenu extends JPanel {
     	final Rectangle play = new Rectangle(buttonWidth*3/2, 
     		buttonHeight*9/2, buttonWidth, buttonHeight);
     	final Rectangle settings = new Rectangle(buttonWidth*3/2, 
-    		(buttonHeight*9/2 + buttonHeight), buttonWidth, buttonHeight);
+    		(buttonHeight*9/2 + buttonHeight + gap), buttonWidth, buttonHeight);
     	final Rectangle help = new Rectangle(buttonWidth*3/2, 
-    		(buttonHeight*9/2 + buttonHeight*2), buttonWidth, buttonHeight);
+    		(buttonHeight*9/2 + (buttonHeight + gap)*2 ), buttonWidth, buttonHeight);
 
         fillButton(g, play);
         fillButton(g, settings);
