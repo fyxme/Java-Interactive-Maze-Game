@@ -94,7 +94,6 @@ public class Map extends JPanel implements KeyListener{
         // Clear the board
         g.clearRect(0, 0, getWidth(), getHeight());
         // Draw the grid
-//        DEFAULT_WIDTH = 20;
         int rectWidth = (100 * getWidth())/(WINDOW_WIDTH * 100 + 20 *  (WINDOW_WIDTH + 1));
         
         // int rectWidth = (getHeight() - (DEFAULT_WIDTH + 1) * 20 * rectWidth / 100)/DEFAULT_WIDTH;

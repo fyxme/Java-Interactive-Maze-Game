@@ -5,6 +5,7 @@
 public class Player {
 	private Tile tile;
 	private String name;
+	private int steps_taken = 0;
 	
 	/**
 	 * Constructor class for the Player class
@@ -13,6 +14,13 @@ public class Player {
 	public Player(String name) {
 		this.name = name;
 		this.tile = null;
+	}
+	
+	/**
+	 * @return Return the number of steps the user has taken
+	 */
+	public int getStepsTaken() {
+		return this.steps_taken;
 	}
 	
 	/**
