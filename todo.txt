@@ -1,0 +1,41 @@
+--- TODO
+- Update run
+- Update compile
+- UML Backend
+- UML Front
+- Resize problem *
+
+---- BACKEND
+- Player
+	- Steps taken
+
+---- FRONTEND
+- Main menu
+	- [Play game]
+	- [Settings]
+	- [Quit]
+
+- Settings
+	- Presets : EASY/MEDIUM/HARD
+	- Grid size
+	- Vision settings
+		- size
+	- Toggle path *
+	- Change colors *
+	
+	- [Back]
+	- [Save]
+
+- Completion Screen
+	- Show the whole maze // picture frame
+	- Steps taken
+	- Mode
+	- Restart
+	- Menu
+
+- Maze Screen
+	- Mode : Easy/Medium/Hard/Custom
+	- Steps taken : #
+
+	- [Restart]
+	- [Cowards way out...]
