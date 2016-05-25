@@ -183,11 +183,24 @@ public class SettingsMenu extends JPanel {
         Dimension menuDimension = this.getSize();
         int titleHeight = (int)(menuDimension.getHeight()/10);
         int titleWidth = (int)(menuDimension.getWidth()/2);
-        Font font = new Font("arial", Font.BOLD, 20);
+        int labelHeight = (int)(menuDimension.getHeight()/20);
+        int labelWidth = (int)(menuDimension.getWidth()/4);
+        Font titleFont = new Font("arial", Font.BOLD, 20);
+        Font labelFont = new Font("arial", Font.PLAIN, 20);
+       
         Rectangle title = new Rectangle(titleWidth*1/2, 
             titleHeight*3/2, titleWidth, titleHeight);
+        Rectangle mazeSize = new Rectangle(labelWidth*1/2, 
+            labelHeight*29/3, labelWidth, labelHeight*4/3);
+        Rectangle visionSize = new Rectangle(labelWidth*1/2, 
+            labelHeight*35/3, labelWidth, labelHeight*4/3);
+        
+        fillButton(g, mazeSize);
+        fillButton(g, visionSize);
         fillButton(g, title);
-        centreString(g, title, "Play", font, Color.WHITE);
+        centreString(g, title, "Settings", titleFont, Color.WHITE);
+        centreString(g, mazeSize, "Maze Size:", labelFont, Color.WHITE);
+        centreString(g, visionSize, "Vision Size:", labelFont, Color.WHITE);
 
     }
 

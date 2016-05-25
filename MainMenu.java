@@ -119,7 +119,7 @@ public class MainMenu extends JPanel {
         Rectangle title = new Rectangle(titleWidth*1/2, 
             titleHeight*3/2, titleWidth, titleHeight);
         fillButton(g, title);
-        centreString(g, title, "Play", font, Color.WHITE);
+        centreString(g, title, "Battlefield One", font, Color.WHITE);
 
     }
 

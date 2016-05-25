@@ -68,8 +68,10 @@ public class GameDisplay {
 
         //add JPanels
         cards.add(new MainMenu(this), "MainMenu");
-        cards.add(new Map(this), "Map");
         cards.add(new SettingsMenu(this), "SettingsMenu");
+        cards.add(new Map(this), "Map");
+        CardLayout cl = (CardLayout)(cards.getLayout());
+        //cl.show(cards, "MainMenu");
 
         
         //Display the window.
@@ -82,6 +84,7 @@ public class GameDisplay {
 
     public void swapPanel(String panelName){
         CardLayout cl = (CardLayout)(cards.getLayout());
+
         cl.show(cards, panelName);
         for(Component c : cards.getComponents()){
             if(c.isVisible()){
@@ -89,8 +92,11 @@ public class GameDisplay {
                 c.requestFocusInWindow();
             }
         }
+
         System.out.println("switching to: " + panelName);
     }
+
+
 
     public void setMazeSettings(int mazeSize, int sight){
         this.mazeSize = mazeSize;
