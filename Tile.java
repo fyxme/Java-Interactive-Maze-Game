@@ -40,12 +40,18 @@ public class Tile {
 		return connection;
 	}
 	
+	/**
+	 * @return Return true if the tile has been visited else returns false
+	 */
 	public int hasBeenVisited() {
 		return this.visited;
 	}
 	
-	public void setVisit(int a) {
-		this.visited = a;
+	/**
+	 * @return Return true if the tile has been visited else returns false
+	 */
+	public void setVisit(int c) {
+		this.visited = c;
 	}
 	
 	/**

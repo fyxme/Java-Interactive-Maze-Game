@@ -3,23 +3,11 @@
  */
 public class GameInstance {
 	private Player player;
-	private Maze maze; 
-	
-	/**
-	 * Constants used for movement case so 
-	 * it allows for further customisation
-	 * (ie. mapping 'move left' to a different key...)
-	 */
-	private static final int LEFT = 0;
-	private static final int RIGHT = 1;
-	private static final int UP = 2;
-	private static final int DOWN = 3;
+	private Maze maze;
 	
 	public GameInstance (int width, int height, String name) {
 		this.maze = new Maze(width,height);
-		
 		this.player = new Player(name);
-		
 		this.player.setPosition(this.maze.getEndTile(this.maze.getStartTile()));
 	}
 
@@ -38,6 +26,9 @@ public class GameInstance {
 		player.move(mv);
 	}
 
+	/**
+	 * @return Return the maze as a String
+	 */
 	public String getMazeAsString() {
 		return maze.getMazeAsString(player.getPosition());
 		

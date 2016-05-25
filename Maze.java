@@ -2,8 +2,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-// Different maze algorithms
-// http://www.jamisbuck.org/presentations/rubyconf2011/index.html
 /**
  * Class containing the Maze
  *
