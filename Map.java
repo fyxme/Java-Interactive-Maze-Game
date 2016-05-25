@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 public class Map extends JPanel implements KeyListener{
+	private int sight = 0;
 	private static final int LEFT = 0;
 	private static final int RIGHT = 1;
 	private static final int UP = 2;
@@ -40,8 +41,9 @@ public class Map extends JPanel implements KeyListener{
     // game world.  Keeping simple just to illustrate.
     private Color[][] terrainGrid;
 
-    public Map(){
+    public Map(int sight){
 //    	this.terrainGrid = new Color[NUM_ROWS][NUM_COLS];
+    	this.sight = sight;
         // generate new game instance
     	addKeyListener(this);
     	setFocusable(true);
@@ -50,8 +52,8 @@ public class Map extends JPanel implements KeyListener{
     	
     	this.terrainGrid = new Color[(WINDOW_WIDTH * 2 + 1)][(WINDOW_HEIGHT * 2 + 1)];
 
-    	System.out.println(gi.getMazeAsString());
-    	updateGrid(gi.getMazeAsString());
+    	System.out.println(gi.printMaze(this.sight));
+    	updateGrid(gi.printMaze(this.sight));
  
         int preferredWidth = (WINDOW_WIDTH * 2 + 1) * PREFERRED_GRID_SIZE_PIXELS;
         int preferredHeight = (WINDOW_HEIGHT * 2 + 1) * PREFERRED_GRID_SIZE_PIXELS;
@@ -129,7 +131,7 @@ public class Map extends JPanel implements KeyListener{
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 JFrame frame = new JFrame("BATTLEFIELD ONE     Soon\u2122");
-                Map map = new Map();
+                Map map = new Map(0);
                 frame.addKeyListener(map.getKeyListeners()[0]);
                 frame.add(map);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -161,7 +163,7 @@ public class Map extends JPanel implements KeyListener{
 		System.out.println(e.getKeyChar());
 		
 		// update maze
-		updateGrid(gi.getMazeAsString());
+		updateGrid(gi.printMaze(this.sight));
 		// update display
 		repaint();
 		

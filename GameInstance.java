@@ -14,8 +14,12 @@ public class GameInstance {
 	/**
 	 * Print the Maze linked to this game Instance
 	 */
-	public void printMaze() {
-		maze.printMaze(player.getPosition());
+	public String printMaze(int sight) {
+		if(sight == 0) {
+			return maze.getMazeFromArray(player.getPosition());
+		}else {
+			return maze.getImmediateFromArray(player.getPosition(), sight);
+		}
 	}
 	
 	/**
@@ -24,14 +28,6 @@ public class GameInstance {
 	 */
 	public void move(int mv) {
 		player.move(mv);
-	}
-
-	/**
-	 * @return Return the maze as a String
-	 */
-	public String getMazeAsString() {
-		return maze.getMazeAsString(player.getPosition());
-		
 	}
 	
 }

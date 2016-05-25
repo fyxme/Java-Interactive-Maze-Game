@@ -47,10 +47,7 @@ public class InteractiveMazePuzzleGame {
 	 * @precondition gi has been initialised and contains a maze
 	 */
 	public void play() {
-		System.out.println("To move use the arrow keys or WASD");
-		
-		gi.printMaze();
-		
+		System.out.println("To move use the arrow keys or WASD");		
 		try {
         	sc = new Scanner(System.in);
             while (sc.hasNextLine()) {
@@ -64,9 +61,6 @@ public class InteractiveMazePuzzleGame {
                 	gi.move(UP);
                 else if (line.matches("^[sS]"))
                 	gi.move(DOWN);
-                
-                // print maze
-                gi.printMaze();
             }
         }
         catch (Exception e) {} 

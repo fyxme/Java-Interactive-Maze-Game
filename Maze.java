@@ -382,9 +382,4 @@ public class Maze {
 		
 		return c;
 	}
-	
-	public String getMazeAsString(Tile position) {
-		//return getMazeFromArray(position);
-		return getImmediateFromArray(position, DEFAULT_SIGHT);
-	}
 }
