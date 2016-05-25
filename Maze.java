@@ -12,6 +12,7 @@ public class Maze {
 	private Tile start_tile = null;
 	private Tile[][] maze = null;
 	private int width,height = 0;
+	private int DEFAULT_SIGHT = 3;
 	
 	
 	public Maze (int width, int height) {
@@ -386,6 +387,6 @@ public class Maze {
 	
 	public String getMazeAsString(Tile position) {
 		//return getMazeFromArray(position);
-		return getImmediateFromArray(position, 3);
+		return getImmediateFromArray(position, DEFAULT_SIGHT);
 	}
 }
