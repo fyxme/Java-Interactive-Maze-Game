@@ -38,7 +38,15 @@ import java.beans.PropertyChangeListener;
 public class GameDisplay {
     private JPanel cards;
     private int mazeSize = 20;
-    private int sight = 0;
+    private int sight = 5;
+
+    public int getMazeSize(){
+        return mazeSize;
+    }
+
+    public int getSight(){
+        return sight;
+    }
 
     public GameDisplay(){
         createAndShowGUI();
@@ -61,6 +69,8 @@ public class GameDisplay {
         //add JPanels
         cards.add(new MainMenu(this), "MainMenu");
         cards.add(new Map(this), "Map");
+        cards.add(new SettingsMenu(this), "SettingsMenu");
+
         
         //Display the window.
         frame.getContentPane().add(cards);

@@ -11,10 +11,17 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import javax.swing.JButton;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.ImageIcon;
+import javax.swing.JFormattedTextField;
+import java.text.NumberFormat;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
+import javax.swing.JTextField;
 
 
 
@@ -23,10 +30,13 @@ public class SettingsMenu extends JPanel {
     private GameDisplay displayController;
     private final Color buttonColor;
     private int gap = 10;
+    private BufferedImage backgroundImage;
+    private JFormattedTextField size;
+    private JFormattedTextField vision;
 
-    BufferedImage backgroundImage;
     public SettingsMenu(GameDisplay displayController){
         setFocusable(true);
+        setLayout(null);
 
         int preferredWidth = 473;
         int preferredHeight = 473;
@@ -34,80 +44,150 @@ public class SettingsMenu extends JPanel {
         System.out.println(preferredHeight + ", " + preferredWidth);
         setPreferredSize(new Dimension(preferredWidth, preferredHeight));
 
-        buttonColor = new Color((float)50/255, (float)50/255, (float)50/255, (float)0.65);
-
-        this.displayController = displayController;
-
         try {                
             this.backgroundImage = ImageIO.read(new File("bliss.jpg"));
         } catch (IOException ex) {
             // handle exception...
         }
+
+
+        this.displayController = displayController;
         
+
+        addComponents();
+        addFields();
+
+      
+
+        buttonColor = new Color((float)50/255, (float)50/255, (float)50/255, (float)0.65);
+
+        
+
+        
+    }
+
+    private void addFields(){
+        Dimension menuDimension = this.getPreferredSize();
+        int fieldHeight = (int)(menuDimension.getHeight()/20);
+        int fieldWidth = (int)(menuDimension.getWidth()/4);
+        size = new JFormattedTextField(NumberFormat.getNumberInstance());
+        vision = new JFormattedTextField(NumberFormat.getNumberInstance());
+        
+        System.out.println(displayController.getMazeSize());
+        size.setValue(displayController.getMazeSize());
+        vision.setValue(displayController.getSight());
+
+        size.addPropertyChangeListener("value1", new PropertyChangeListener(){
+            @Override
+            public void propertyChange(PropertyChangeEvent e) {
+                size.setValue(e.getNewValue());
+                System.out.println(e.getNewValue());
+            }
+        });
+
+        vision.addPropertyChangeListener("value2", new PropertyChangeListener(){
+            @Override
+            public void propertyChange(PropertyChangeEvent e) {
+                vision.setValue(e.getNewValue());
+                System.out.println(e.getNewValue());
+            }
+        });
+        //size.setColumnns(100);
+        size.setSize(fieldWidth, fieldHeight);
+        size.setSize(fieldWidth, fieldHeight);
+        size.setLocation(fieldWidth*2 + 20, fieldHeight*10);
+
+        vision.setSize(fieldWidth, fieldHeight);
+        vision.setSize(fieldWidth, fieldHeight);
+        vision.setLocation(fieldWidth*2 + 20, fieldHeight*12);
+
+        size.setVisible(true);
+        vision.setVisible(true);
+
+        add(size);
+        add(vision);
+
+    }
+
+    private void addComponents(){
+
+        Dimension menuDimension = this.getPreferredSize();
+        int buttonHeight = (int)(menuDimension.getHeight()/10);
+        int buttonWidth = (int)(menuDimension.getWidth()/4);
+        JButton easyPreset = new JButton("Easy", new ImageIcon(backgroundImage));
+        JButton medPreset = new JButton("Medium");
+        JButton hardPreset = new JButton("Hard");
+        JButton done = new JButton("Done");
+
+        easyPreset.setBounds(buttonWidth*1/2, 
+            buttonHeight*3, buttonWidth, buttonHeight);
+        medPreset.setBounds((buttonWidth*1/2 + buttonWidth), 
+            buttonHeight*3, buttonWidth, buttonHeight);
+        hardPreset.setBounds((buttonWidth*1/2 + buttonWidth*2), 
+            buttonHeight*3, buttonWidth, buttonHeight);
+        done.setBounds((buttonWidth*1/2 + buttonWidth), 
+            buttonHeight*7, buttonWidth, buttonHeight);
+
+        easyPreset.setSize(buttonWidth, buttonHeight);
+        medPreset.setSize(buttonWidth, buttonHeight);
+        hardPreset.setSize(buttonWidth, buttonHeight);
+
+        easyPreset.setLocation(buttonWidth*1/2, buttonHeight*3);
+
+        easyPreset.setVisible(true);
+        medPreset.setVisible(true);
+        hardPreset.setVisible(true);
+
+        easyPreset.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                size.firePropertyChange("value1", 0, 10);
+                vision.firePropertyChange("value2", -1, 0);
+            }
+        });
+
+        medPreset.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                size.firePropertyChange("value1", 0, 20);
+                vision.firePropertyChange("value2", 0, 5);
+            }
+        });
+
+        hardPreset.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                size.firePropertyChange("value1", 0, 30);
+                vision.firePropertyChange("value2", 0, 3);
+            }
+        });
+
+        done.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                displayController.setMazeSettings((int)size.getValue(), (int)vision.getValue());
+                displayController.swapPanel("MainMenu");
+            }
+        });
+
+        add(easyPreset);
+        add(medPreset);
+        add(hardPreset);
+        add(done);
+
     }
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(backgroundImage, 0, 0, null);
         Dimension menuDimension = this.getSize();
-        int buttonHeight = (int)(menuDimension.getHeight()/10);
-        int buttonWidth = (int)(menuDimension.getWidth()/4);
-        final Font font = new Font("arial", Font.BOLD, 20);
-        
-        //create buttons
-        final Rectangle play = new Rectangle(buttonWidth*3/2, 
-            buttonHeight*9/2, buttonWidth, buttonHeight);
-        final Rectangle settings = new Rectangle(buttonWidth*3/2, 
-            (buttonHeight*9/2 + buttonHeight), buttonWidth, buttonHeight);
-        final Rectangle help = new Rectangle(buttonWidth*3/2, 
-            (buttonHeight*9/2 + buttonHeight*2), buttonWidth, buttonHeight);
-
-        fillButton(g, play);
-        fillButton(g, settings);
-        fillButton(g, help);
-        
-        centreString(g, play, "Play", font, Color.WHITE);
-        centreString(g, settings, "Settings", font, Color.WHITE);
-        centreString(g, help, "Help", font, Color.WHITE);
-        //centreString(g, play, "Play", font);
-
-        //add listener to buttons
-        addMouseListener(new MouseAdapter() {
-        @Override
-            public void mouseClicked(MouseEvent e) {
-        if (play.contains(e.getX(), e.getY())){
-                System.out.println("clicked play");
-                    displayController.swapPanel("Map");
-                }
-
-                if (settings.contains(e.getX(), e.getY())){
-                    System.out.println("clicked settings");
-            }
-
-            if (help.contains(e.getX(), e.getY())){
-                System.out.println("clicked help");
-            }
-        }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                if (play.contains(e.getX(), e.getY())){
-                    //centreString(g, play, "Play", font, Color.YELLOW);
-                }
-
-                if (settings.contains(e.getX(), e.getY())){
-                    System.out.println("clicked settings");
-                }
-
-                if (help.contains(e.getX(), e.getY())){
-                    System.out.println("clicked help");
-                }
-            }
-        });
-
-
-        g.setFont(font);
-        g.setColor(Color.black);
+        int titleHeight = (int)(menuDimension.getHeight()/10);
+        int titleWidth = (int)(menuDimension.getWidth()/2);
+        Font font = new Font("arial", Font.BOLD, 20);
+        Rectangle title = new Rectangle(titleWidth*1/2, 
+            titleHeight*3/2, titleWidth, titleHeight);
+        fillButton(g, title);
+        centreString(g, title, "Play", font, Color.WHITE);
 
     }
 
