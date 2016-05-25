@@ -50,14 +50,14 @@ public class Player {
 	 * @return true if the player is able to move else returns false
 	 */
 	public boolean move(int mv) {
-		Tile t = tile.getConnection(mv);
-		if (t != null && !t.isWall()) {
-			if(t.getConnectedTile(tile).hasBeenVisited() == 1) {
+		Connection c = tile.getConnection(mv);
+		if (c != null && !c.isWall()) {
+			if(c.getConnectedTile(tile).hasBeenVisited() == 1) {
 				tile.setVisit(2);
 			} else {
 				tile.setVisit(1);
 			}
-			tile = t;
+			tile = c.getConnectedTile(tile);
 			steps_taken++;
 			return true;
 		}
