@@ -10,8 +10,6 @@ public class Maze {
 	private Tile start_tile = null;
 	private Tile[][] maze = null;
 	private int width,height = 0;
-	private int DEFAULT_SIGHT = 3;
-	
 	
 	public Maze (int width, int height) {
 		this.maze = new Tile[width][height];
@@ -54,6 +52,11 @@ public class Maze {
 		temp = null;
 	}
 	
+	/**
+	 * prints the whole maze
+	 * @param player_pos
+	 * @return
+	 */
 	public String getMazeFromArray(Tile player_pos) {
 		String ret = "";
 		
@@ -124,6 +127,12 @@ public class Maze {
 		return ret;
 	}
 	
+	/**
+	 * prints the surroundings based on the perpendicular sight distance specified
+	 * @param player_pos
+	 * @param sightRadius
+	 * @return
+	 */
 	public String getImmediateFromArray(Tile player_pos, int sightRadius) {
 		//finding the position of the Player
 		int playerX = 0, playerY = 0;
@@ -141,8 +150,8 @@ public class Maze {
 		//printing around the player
 		String ret = "";
 		//print top wall
-		for (int z = 0; z < 5; z++)
-			ret += "+-";
+		for (int z = 0; z < sightRadius * 2 + 1; z++)
+			ret += "++";
 		ret += "+\n";
 		//print the rest
 		for (int y = playerY-sightRadius; y <= playerY+sightRadius; y++) {
@@ -166,7 +175,9 @@ public class Maze {
 					}
 				}
 				// right wall
-				if( (x >= this.width) || (x < 0) || (y >= this.height) || (y < 0) ) {
+				if(x == playerX+sightRadius) {
+					ret += "|";
+				}else if( (x >= this.width) || (x < 0) || (y >= this.height) || (y < 0) ) {
 					ret += "+";
 				} else {
 					if (maze[x][y].getRight() != null && !maze[x][y].getRight().isWall()) {
@@ -190,7 +201,9 @@ public class Maze {
 					}
 				}
 				// bottom wall
-				if( (x >= this.width) || (x < 0) || (y >= this.height) || (y < 0) ) {
+				if(y == playerY+sightRadius) {
+					temp += "++";
+				}else if( (x >= this.width) || (x < 0) || (y >= this.height) || (y < 0) ) {
 					temp += "++";
 				} else {
 					if (maze[x][y].getDown() != null && !maze[x][y].getDown().isWall()) {
@@ -257,91 +270,6 @@ public class Maze {
 			recursiveBacktracker(stack.pop(),unvisited,stack);
 		}
 		
-	}
-	
-	public String printMaze(Tile player_pos) {
-		Tile curr = start_tile;
-		String ret = "";
-		// print top wall
-		while (curr != null) {
-			ret += "+-";
-			curr = curr.getDown() == null? null : curr.getDown().getConnectedTile(curr);
-		}
-		ret+="+\n";
-		curr = start_tile;
-		// print rest of maze
-		while (curr != null) {
-			ret += recursiveRowPrint(curr, new String(), new String(),player_pos);
-			curr = curr.getDown() == null? null : curr.getDown().getConnectedTile(curr);
-		}
-		return ret;
-	}
-	
-	
-	private String recursiveRowPrint(Tile current,String l1, String l2, Tile player_pos) {
-		
-		// print left wall for border of maze
-		if (current.getLeft() == null) {
-			l1 += "|";
-			l2 += "+";
-		}
-
-		// print tile
-		if (current == player_pos) {
-			l1 += "P";
-		} else if (current.hasBeenVisited() > 0) {
-			if (current.hasBeenVisited()%2 == 1) {
-				l1 += "V";
-			} else {
-				l1 += "v";
-			}
-		} else {
-			l1 += " ";
-		}
-		
-		// print below wall
-		if (current.getDown() != null && !current.getDown().isWall()) {
-			if ( (current.getDown().getConnectedTile(current).hasBeenVisited() > 0)
-			  && (current.hasBeenVisited() > 0) ) {
-				if (current.hasBeenVisited()%2 == 1) {
-					l1 += "V";
-				} else {
-					l1 += "v";
-				}
-			} else {
-				l2 += " ";
-			}
-		} else {
-			l2 += "-";
-		}
-		
-		if (current.getRight() != null) {
-			// side wall
-			if (!current.getRight().isWall()) {
-				if ( (current.getRight().getConnectedTile(current).hasBeenVisited() > 0 )
-				  && (current.hasBeenVisited() > 0) ) {
-					if (current.hasBeenVisited()%2 == 1) {
-						l1 += "V";
-					} else {
-						l1 += "v";
-					}
-				} else {
-					l1 += " ";
-				}
-				l2 += "+";
-			} else {
-				l1 += "|";
-				l2 += "+";
-			}
-			return recursiveRowPrint(current.getRight().getConnectedTile(current),l1,l2,player_pos);
-		} else {
-			l1 += "|";
-			l2 += "+";
-			// end of line print wall
-			return l1 +"\n"+ l2+"\n";
-//			System.out.println(l1);
-//			System.out.println(l2);
-		}
 	}
 	
 	public void generateMaze() {

@@ -18,8 +18,6 @@ public class Map extends JPanel implements KeyListener{
     public static final Color RED = Color.decode("#F44336");
     public static final Color PATH1 = Color.decode("#DCEDC8");
     public static final Color PATH2 = Color.decode("#FFCCBC");
-    public static final int PREFERRED_GRID_SIZE_PIXELS = 20;
-    public static final int WALL_WIDTH = 20;
     
     public static final Color[] TERRAIN = {
         BLACK,
@@ -28,9 +26,8 @@ public class Map extends JPanel implements KeyListener{
     
     GameInstance gi = null;
     
+    private int block_pixel_dimension;
 	private int sight;
-    public int rows;
-    public int cols;
 	private int w_width;
 	private int w_height;
 	private static final String DEFAULT_NAME = "Ronin the Conqueror of Worlds";
@@ -41,16 +38,16 @@ public class Map extends JPanel implements KeyListener{
     private Color[][] terrainGrid;
 
     public Map(int rows, int cols, int sight){
-    	this.rows = rows;
-    	this.cols = cols;
     	this.sight = sight;
     	
     	if(sight == 0) {
     		w_width = cols;
     		w_height = rows;
+    		block_pixel_dimension = 20;
     	}else {
     		w_width = sight * 2 + 1;
-    		w_height = rows * 2 + 1;
+    		w_height = sight * 2 + 1;
+    		block_pixel_dimension = 300/(sight*2+1);
     	}
     	
         // generate new game instance
@@ -64,8 +61,8 @@ public class Map extends JPanel implements KeyListener{
     	System.out.println(gi.printMaze(this.sight));
     	updateGrid(gi.printMaze(this.sight));
  
-        int preferredWidth = (w_width * 2 + 1) * PREFERRED_GRID_SIZE_PIXELS;
-        int preferredHeight = (w_height * 2 + 1) * PREFERRED_GRID_SIZE_PIXELS;
+        int preferredWidth = (w_width * 2 + 1) * block_pixel_dimension;
+        int preferredHeight = (w_height * 2 + 1) * block_pixel_dimension;
         setPreferredSize(new Dimension(preferredWidth, preferredHeight));
     }
 
@@ -105,16 +102,10 @@ public class Map extends JPanel implements KeyListener{
         // Clear the board
         g.clearRect(0, 0, getWidth(), getHeight());
         // Draw the grid
-        int rectWidth = (100 * getWidth())/(w_width * 100 + 20 *  (w_width + 1));
-        
-        // int rectWidth = (getHeight() - (DEFAULT_WIDTH + 1) * 20 * rectWidth / 100)/DEFAULT_WIDTH;
-        // rectWidth * DEFAULT_WIDTH * 100 = 100 * getHeight() - 20 * rectWidth
-        // rectWidth * DEFAULT_WIDTH * 100 + 20 * rectWidth = 100 * getHeight()
-        // rectWidth = (100 * getHeight())/(DEFAULT_WIDTH * 100 + 20);
-        int rectHeight = (100 * getHeight())/(w_height * 100 + 20 *  (w_height + 1));
-        // wall = 
-        int wallWidth = 20 * rectWidth / 100;
-        int wallHeight = 20 * rectHeight / 100;
+        int rectWidth = (100 * getWidth())/(w_width * 100 + block_pixel_dimension *  (w_width + 1));
+        int rectHeight = (100 * getHeight())/(w_height * 100 + block_pixel_dimension *  (w_height + 1));
+        int wallWidth = block_pixel_dimension/2 * rectWidth / 100;
+        int wallHeight = block_pixel_dimension/2 * rectHeight / 100;
 
         int x = 0;
         int y = 0;
@@ -123,8 +114,6 @@ public class Map extends JPanel implements KeyListener{
                 // Upper left corner of this terrain rect
             	x = ((int)i/2) * rectWidth + (int)(i+1)/2 * wallHeight;
                 y = ((int)j/2) * rectHeight + (int)(j+1)/2 * wallWidth;
-                System.out.println(x);
-                System.out.println(y);
                 Color terrainColor = terrainGrid[i][j];
                 g.setColor(terrainColor);
                 
@@ -140,7 +129,7 @@ public class Map extends JPanel implements KeyListener{
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 JFrame frame = new JFrame("BATTLEFIELD ONE     Soon\u2122");
-                Map map = new Map(20,20,0);
+                Map map = new Map(20,20,3);
                 frame.addKeyListener(map.getKeyListeners()[0]);
                 frame.add(map);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
