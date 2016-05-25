@@ -5,6 +5,7 @@
 - UML Front
 
 ---- BACKEND
+- hasWon()
 
 ---- FRONTEND
 - Main menu
