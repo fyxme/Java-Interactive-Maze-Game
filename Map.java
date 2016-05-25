@@ -47,7 +47,7 @@ public class Map extends JPanel implements KeyListener{
     	}else {
     		w_width = sight * 2 + 1;
     		w_height = sight * 2 + 1;
-    		block_pixel_dimension = 300/(sight*2+1);
+    		block_pixel_dimension = 500/((sight*2)+1);
     	}
     	
         // generate new game instance
@@ -102,10 +102,10 @@ public class Map extends JPanel implements KeyListener{
         // Clear the board
         g.clearRect(0, 0, getWidth(), getHeight());
         // Draw the grid
-        int rectWidth = (100 * getWidth())/(w_width * 100 + block_pixel_dimension *  (w_width + 1));
-        int rectHeight = (100 * getHeight())/(w_height * 100 + block_pixel_dimension *  (w_height + 1));
-        int wallWidth = block_pixel_dimension/2 * rectWidth / 100;
-        int wallHeight = block_pixel_dimension/2 * rectHeight / 100;
+        int rectWidth = (80 * getWidth())/(w_width * 100 + block_pixel_dimension *  (w_width + 1));
+        int rectHeight = (80 * getHeight())/(w_height * 100 + block_pixel_dimension *  (w_height + 1));
+        int wallWidth = 20 * rectWidth / 100;
+        int wallHeight = 20 * rectHeight / 100;
 
         int x = 0;
         int y = 0;
@@ -129,13 +129,14 @@ public class Map extends JPanel implements KeyListener{
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 JFrame frame = new JFrame("BATTLEFIELD ONE     Soon\u2122");
-                Map map = new Map(20,20,3);
+                Map map = new Map(30,30,5);
                 frame.addKeyListener(map.getKeyListeners()[0]);
                 frame.add(map);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);
                 frame.setFocusable(true);
+                frame.setResizable(false);
             }
         });
     }
