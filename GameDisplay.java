@@ -49,47 +49,18 @@ public class GameDisplay {
 
     private void createAndShowGUI() {
         //Create and set up the window.
-        JFrame frame = new JFrame("TopLevelDemo");
+        JFrame frame = new JFrame("Battlefield One");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
-        //Create the menu bar.  Make it have a green background.
-        /*JMenuBar greenMenuBar = new JMenuBar();
-        greenMenuBar.setOpaque(true);
-        greenMenuBar.setPreferredSize(new Dimension(200, 20));
-        */
-        
-        //Create a yellow label to put in the content pane.
-        JLabel yellowLabel = new JLabel();
-        yellowLabel.setOpaque(true);
-        yellowLabel.setBackground(Color.WHITE);
-        yellowLabel.setPreferredSize(new Dimension(200, 180));
-
-        //Set the menu bar and add the label to the content pane.
-        //frame.setJMenuBar(greenMenuBar);
-        //frame.getContentPane().add(yellowLabel, BorderLayout.CENTER);
-
+        //create CardLayout manager
         cards = new JPanel(new CardLayout());
 
+        //add JPanels
         cards.add(new MainMenu(this), "MainMenu");
-        JPanel map = new Map();
-        map.setFocusable(true);
-        cards.add(map, "Map");
-        frame.getContentPane().add(cards);
-        
-        
-        cards.addPropertyChangeListener(new PropertyChangeListener(){
-            
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                System.out.println("dfjlsdjfk");
-                CardLayout cl = (CardLayout)(cards.getLayout());
-                cl.show(cards, (String)evt.getPropertyName());
-                System.out.println("switching to: " + (String)evt.getPropertyName());
-                }
-        });
+        cards.add(new Map(this), "Map");
         
         //Display the window.
+        frame.getContentPane().add(cards);
         frame.pack();
         frame.setResizable(false);
         frame.setVisible(true);
@@ -97,7 +68,6 @@ public class GameDisplay {
     }
 
     public void swapPanel(String panelName){
-        System.out.println("dfjlsdjfk");
         CardLayout cl = (CardLayout)(cards.getLayout());
         cl.show(cards, panelName);
         for(Component c : cards.getComponents()){

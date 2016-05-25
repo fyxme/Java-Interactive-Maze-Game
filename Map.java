@@ -35,13 +35,15 @@ public class Map extends JPanel implements KeyListener{
 	private static final int WINDOW_WIDTH = 7;
 	private static final int WINDOW_HEIGHT = 7;
 	private static final String DEFAULT_NAME = "Ronin the Conqueror of Worlds";
+
+    private GameDisplay displayController;
     
     // In reality you will probably want a class here to represent a map tile,
     // which will include things like dimensions, color, properties in the
     // game world.  Keeping simple just to illustrate.
     private Color[][] terrainGrid;
 
-    public Map(){
+    public Map(GameDisplay displayController){
 //    	this.terrainGrid = new Color[NUM_ROWS][NUM_COLS];
         // generate new game instance
     	addKeyListener(this);
@@ -57,6 +59,8 @@ public class Map extends JPanel implements KeyListener{
         int preferredWidth = (WINDOW_WIDTH * 2 + 1) * PREFERRED_GRID_SIZE_PIXELS;
         int preferredHeight = (WINDOW_HEIGHT * 2 + 1) * PREFERRED_GRID_SIZE_PIXELS;
         setPreferredSize(new Dimension(preferredWidth, preferredHeight));
+
+        this.displayController = displayController;
     }
 
     public void updateGrid(String maze) {
@@ -126,7 +130,7 @@ public class Map extends JPanel implements KeyListener{
         }
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         // http://docs.oracle.com/javase/tutorial/uiswing/concurrency/initial.html
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
@@ -142,6 +146,7 @@ public class Map extends JPanel implements KeyListener{
             }
         });
     }
+    */
 
 	@Override
 	public void keyTyped(KeyEvent e) {

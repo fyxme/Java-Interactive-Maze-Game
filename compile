@@ -10,4 +10,4 @@ exit if (@ARGV >= 1 && $ARGV[0] =~ /-c(lean)?/);
 
 print "Compiling\n";
 
-`javac InteractiveMazePuzzleGame.java`;
+`javac *.java`;

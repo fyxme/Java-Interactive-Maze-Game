@@ -1,8 +1,6 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
@@ -13,9 +11,6 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.awt.*;
-import javax.swing.*;
-import java.awt.event.ActionEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,28 +19,20 @@ import javax.swing.SwingUtilities;
 
 
 public class MainMenu extends JPanel {
-	public static final int PREFERRED_GRID_SIZE_PIXELS = 20;
-	public static final int WALL_WIDTH = 20;
 
-	private static final int DEFAULT_WIDTH = 20;
-	private static final int DEFAULT_HEIGHT = 20;
-	private static final String DEFAULT_NAME = "Ronin the Conqueror of Worlds";
-
-    private GameDisplay mainDisplay;
+    private GameDisplay displayController;
 
 	BufferedImage backgroundImage;
-	 public MainMenu(GameDisplay mainDisplay){
-//    	this.terrainGrid = new Color[NUM_ROWS][NUM_COLS];
-        // generate new game instance
+	public MainMenu(GameDisplay displayController){
     	setFocusable(true);
-    	setFocusTraversalKeysEnabled(false);
-    	
- 
-        int preferredWidth = (DEFAULT_WIDTH * 2 + 1) * PREFERRED_GRID_SIZE_PIXELS;
-        int preferredHeight = (DEFAULT_HEIGHT * 2 + 1) * PREFERRED_GRID_SIZE_PIXELS;
+
+        int preferredWidth = 480;
+        int preferredHeight = 480;
+
+        System.out.println(preferredHeight + ", " + preferredWidth);
         setPreferredSize(new Dimension(preferredWidth, preferredHeight));
 
-        this.mainDisplay = mainDisplay;
+        this.displayController = displayController;
 
         try {                
         	this.backgroundImage = ImageIO.read(new File("bliss.jpg"));
@@ -75,13 +62,15 @@ public class MainMenu extends JPanel {
     	centreString(g, settings, "Settings", font);
     	centreString(g, help, "Help", font);
     	//centreString(g, play, "Play", font);
+
+        //add listener to buttons
     	addMouseListener(new MouseAdapter() {
    			@Override
    			public void mouseClicked(MouseEvent e) {
    				if (play.contains(e.getX(), e.getY())){
         			System.out.println("clicked play");
                     firePropertyChange("Map", 0 , 0);
-                    mainDisplay.swapPanel("Map");
+                    displayController.swapPanel("Map");
         		}
 
         		if (settings.contains(e.getX(), e.getY())){
@@ -97,12 +86,12 @@ public class MainMenu extends JPanel {
 
         g.setFont(font);
         g.setColor(Color.black);
-        g.drawString("BATTLEFIELD ONE", ((DEFAULT_WIDTH * 2 + 1) * PREFERRED_GRID_SIZE_PIXELS)/4, 100);
 
     }
 
    
-
+    //centre string inside rectangle
+    //from http://stackoverflow.com/questions/27706197/how-can-i-center-graphics-drawstring-in-java
     public void centreString(Graphics g, Rectangle r, String s, Font font) {
     	FontRenderContext frc = 
             new FontRenderContext(null, true, true);
@@ -119,20 +108,4 @@ public class MainMenu extends JPanel {
 	    g.setFont(font);
 	    g.drawString(s, r.x + a, r.y + b);
 	}
-    /*
-    public static void main(String[] args) {
-        // http://docs.oracle.com/javase/tutorial/uiswing/concurrency/initial.html
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                JFrame frame = new JFrame("Battlefield ONE: coming Soon\u2122");
-                MainMenu map = new MainMenu();
-                frame.add(map);
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.pack();
-                frame.setVisible(true);
-                frame.setFocusable(true);
-            }
-        });
-    }
-    */
 }
