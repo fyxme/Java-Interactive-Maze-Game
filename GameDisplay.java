@@ -39,6 +39,7 @@ public class GameDisplay {
     private JPanel cards;
     private int mazeSize = 20;
     private int sight = 5;
+    JFrame mainFrame;
 
     public int getMazeSize(){
         return mazeSize;
@@ -60,8 +61,8 @@ public class GameDisplay {
 
     private void createAndShowGUI() {
         //Create and set up the window.
-        JFrame frame = new JFrame("Battlefield One");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame = new JFrame("Battlefield One");
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //create CardLayout manager
         cards = new JPanel(new CardLayout());
@@ -75,10 +76,10 @@ public class GameDisplay {
 
         
         //Display the window.
-        frame.getContentPane().add(cards);
-        frame.pack();
-        frame.setResizable(false);
-        frame.setVisible(true);
+        mainFrame.getContentPane().add(cards);
+        mainFrame.pack();
+        mainFrame.setResizable(false);
+        mainFrame.setVisible(true);
         
     }
 
@@ -94,6 +95,8 @@ public class GameDisplay {
             if(c.isVisible()){
                 c.setFocusable(true);
                 c.requestFocusInWindow();
+                cards.setPreferredSize(c.getPreferredSize());
+                mainFrame.pack();
             }
         }
 

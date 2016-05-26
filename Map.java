@@ -78,8 +78,8 @@ public class Map extends JPanel implements KeyListener{
 
     private void addButton(){
         Dimension menuDimension = this.getSize();
-        int buttonHeight = (int)(473/10);
-        int buttonWidth = (int)(473/4);
+        int buttonHeight = (int)(menuDimension.getHeight()/10);
+        int buttonWidth = (int)(menuDimension.getWidth()/4);
         
         final JButton rageQuit = new JButton("rageQuit");
         rageQuit.setOpaque(false);
