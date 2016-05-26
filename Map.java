@@ -74,7 +74,7 @@ public class Map extends JPanel implements KeyListener{
     	updateGrid(gi.printMaze(this.sight));
 
  
-        setPreferredSize(new Dimension(windowDimension, windowDimension));
+        setPreferredSize(new Dimension(windowDimension + 250, windowDimension));
 
         this.displayController = displayController;
         addButton();
