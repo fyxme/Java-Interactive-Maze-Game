@@ -31,8 +31,6 @@
 
 import java.awt.*;
 import javax.swing.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 /* TopLevelDemo.java requires no other files. */
 public class GameDisplay {

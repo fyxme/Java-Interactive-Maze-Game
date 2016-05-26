@@ -5,6 +5,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.Rectangle2D;
 import java.awt.Rectangle;
 import java.awt.Font;
 
@@ -14,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.JButton;
+import javax.swing.JTextArea;
 
 public class Map extends JPanel implements KeyListener{
 	private static final int LEFT = 0;
@@ -80,23 +83,58 @@ public class Map extends JPanel implements KeyListener{
 
         this.displayController = displayController;
         addButton();
+        addHowToPlay();
     }
+    
+    private void addHowToPlay(){
+    	Dimension menuDimension = this.getPreferredSize();
+        int height = (int)menuDimension.getHeight();
+        int width = (int)menuDimension.getWidth();
+        int labelHeight = (int)(menuDimension.getHeight()/10);
+        int labelWidth = 200;
+        int gap = 24;
+        Font textFont = new Font("Arial", Font.PLAIN, 20 );
+        //Font titleFont = new Font("Arial", Font.BOLD, 30 );
+        
+        String howToPlayText = ("Use the arrow keys or the 'WASD' keys to try and"
+        		+ " reach the top right corner of the map!");
+        JTextArea text = new JTextArea(howToPlayText);
 
+        //title.setSize(labelWidth, labelHeight*3);
+        //title.setBounds(width - labelWidth - gap, labelHeight, labelWidth, labelHeight);
+        text.setBounds(width - labelWidth - gap, labelHeight*3, labelWidth, labelHeight*5);
+        text.setLocation(width - labelWidth - gap, labelHeight*3);
+        
+        text.setLineWrap(true);
+        text.setWrapStyleWord(true);
+        text.setFont(textFont);
+        text.setOpaque(false);
+        text.setBackground(new Color((float)50/255, (float)50/255, (float)50/255, (float)0.5));
+        text.setEditable(false);
+        //title.setFont(titleFont);
+        
+        //add(title);
+        add(text);
+    }
+    
     private void addButton(){
         Dimension menuDimension = this.getPreferredSize();
+        int height = (int)menuDimension.getHeight();
+        int width = (int)menuDimension.getWidth();
         int buttonHeight = (int)(menuDimension.getHeight()/10);
-        int buttonWidth = (int)(menuDimension.getWidth()/4);
-        Font buttonFont = new Font("Arial", Font.BOLD, 15 );
+        int buttonWidth = 200;
+        int gap = 24;
+        Font buttonFont = new Font("Arial", Font.BOLD, 30 );
 
-
+      
         final JButton rageQuit = new JButton("Rage Quit!");
-        rageQuit.setOpaque(false);
-        rageQuit.setContentAreaFilled(false);
+        //rageQuit.setOpaque(false);
+        //rageQuit.setContentAreaFilled(false);
         rageQuit.setSize(buttonWidth, buttonHeight);
-        rageQuit.setBounds(0, buttonHeight*9, buttonWidth, buttonHeight);
-        rageQuit.setLocation(0, buttonHeight*9);
-        rageQuit.setForeground(Color.CYAN);
-        rageQuit.setBorderPainted(false);
+        rageQuit.setBounds(width - buttonWidth - gap, buttonHeight * 17/2, buttonWidth, buttonHeight);
+        rageQuit.setLocation(width - buttonWidth - gap, buttonHeight*17/2);
+        //rageQuit.setForeground(Color.CYAN);
+        //rageQuit.setBorderPainted(false);
         rageQuit.setFont(buttonFont);
 
         
@@ -113,7 +151,7 @@ public class Map extends JPanel implements KeyListener{
             }
             @Override
             public void mouseExited(MouseEvent e){
-                rageQuit.setForeground(Color.CYAN);
+                rageQuit.setForeground(Color.BLACK);
             }
         });
 
@@ -175,17 +213,67 @@ public class Map extends JPanel implements KeyListener{
             }
 
         }
+        
+        Dimension menuDimension = this.getPreferredSize();
+        int height = (int)menuDimension.getHeight();
+        int width = (int)menuDimension.getWidth();
+        int titleHeight = (int)(menuDimension.getHeight()/10);
+        int titleWidth = 200;
+        int gap = 24;
+        
+        Rectangle menuRect = new Rectangle( (int)(width - titleWidth - gap*1.5), gap/2, titleWidth + gap, height-gap);
+        g.setColor(new Color((float)50/255, (float)50/255, (float)50/255, (float)0.2));
+        g.fillRoundRect((int)menuRect.getX(), (int)menuRect.getY(), 
+                (int)menuRect.getWidth(), (int)menuRect.getHeight(), 10, 10);
+        
+        Rectangle title = new Rectangle(width - titleWidth - gap, titleHeight*1, titleWidth, titleHeight);
+        Rectangle red = new Rectangle(width - titleWidth - gap, titleHeight*5, titleWidth, titleHeight/2);
+        Rectangle green = new Rectangle(width - titleWidth - gap, titleHeight*11/2, titleWidth, titleHeight/2);
+        Rectangle unvisited = new Rectangle(width - titleWidth - gap, titleHeight*6, titleWidth, titleHeight/2);
+        //Rectangle total = new Rectangle(width - titleWidth - gap, titleHeight*13/2, titleWidth, titleHeight/2);
+        //g.setColor(new Color((float)50/255, (float)50/255, (float)50/255, (float)0.5));
+        //g.fillRoundRect((int)title.getX(), (int)title.getY(), 
+                    //(int)title.getWidth(), (int)title.getHeight(), 10, 10);
+        String strRed = ("Red : " + Integer.toString(maze.getRedCount()));
+        String strGreen = ("Green : " + Integer.toString(maze.getGreenCount()));
+        //String strTotal = ("Total Visited : " + Integer.toString(maze.getTotalCount()));
+        String strUnvisited = ("Unvisited : " + Integer.toString(maze.getUnvisitedCount()));
+        
+        Font countFont = new Font("Arial", Font.PLAIN, 15);
+        
+        centreString(g, title, "Instructions", new Font("Arial", Font.BOLD, 30), BLACK);
+        centreString(g, red, strRed, countFont, BLACK);
+        centreString(g, green, strGreen, countFont, BLACK);
+        centreString(g, unvisited, strUnvisited, countFont, BLACK);
+        //centreString(g, total, strTotal, countFont, BLACK);
 
         //paint rageQuit button
-        Dimension menuDimension = this.getPreferredSize();
-               int buttonHeight = (int)(menuDimension.getHeight()/10);
-        int buttonWidth = (int)(menuDimension.getWidth()/4);
+        //Dimension menuDimension = this.getPreferredSize();
+        //       int buttonHeight = (int)(menuDimension.getHeight()/10);
+        //int buttonWidth = (int)(menuDimension.getWidth()/4);
 
-        Rectangle rageQuitRect = new Rectangle(0, buttonHeight*9, buttonWidth, buttonHeight);
-        g.setColor(new Color((float)50/255, (float)50/255, (float)50/255, (float)0.5));
-        g.fillRoundRect((int)rageQuitRect.getX() + 10, (int)rageQuitRect.getY() + 10, 
-            (int)rageQuitRect.getWidth()-20, (int)rageQuitRect.getHeight()- 20, 10, 10);
+        //Rectangle rageQuitRect = new Rectangle(0, buttonHeight*9, buttonWidth, buttonHeight);
+        //g.setColor(new Color((float)50/255, (float)50/255, (float)50/255, (float)0.5));
+        //g.fillRoundRect((int)rageQuitRect.getX() + 10, (int)rageQuitRect.getY() + 10, 
+        //    (int)rageQuitRect.getWidth()-20, (int)rageQuitRect.getHeight()- 20, 10, 10);
 
+    }
+    
+    private void centreString(Graphics g, Rectangle r, String s, Font font, Color c) {
+        FontRenderContext frc = 
+            new FontRenderContext(null, true, true);
+
+        Rectangle2D r2D = font.getStringBounds(s, frc);
+        int rWidth = (int) Math.round(r2D.getWidth());
+        int rHeight = (int) Math.round(r2D.getHeight());
+        int rX = (int) Math.round(r2D.getX());
+        int rY = (int) Math.round(r2D.getY());
+
+        int a = (r.width / 2) - (rWidth / 2) - rX;
+        int b = (r.height / 2) - (rHeight / 2) - rY;
+        g.setColor(c);
+        g.setFont(font);
+        g.drawString(s, r.x + a, r.y + b);
     }
     
 	@Override
