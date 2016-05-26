@@ -72,16 +72,13 @@ public class GameDisplay {
         cards.add(new MainMenu(this), "MainMenu");
         cards.add(new SettingsMenu(this), "SettingsMenu");
         
-        CardLayout cl = (CardLayout)(cards.getLayout());
-        //cl.show(cards, "MainMenu");
 
         
         //Display the window.
         mainFrame.getContentPane().add(cards);
         mainFrame.pack();
         mainFrame.setResizable(false);
-        mainFrame.setVisible(true);
-        
+        mainFrame.setVisible(true);    
     }
 
     public void swapPanel(String panelName){
@@ -118,7 +115,6 @@ public class GameDisplay {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 GameDisplay g = new GameDisplay();
-            //inloop();
             }
         });
     }
