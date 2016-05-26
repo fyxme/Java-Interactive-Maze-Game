@@ -5,6 +5,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Rectangle;
+import java.awt.Font;
 
 
 
@@ -31,6 +33,7 @@ public class Map extends JPanel implements KeyListener{
     
     GameInstance gi = null;
     
+    private Maze maze;
     private int block_pixel_dimension,wall_pixel_dimension;
 	private int sight;
 	private int dimension;
@@ -65,6 +68,7 @@ public class Map extends JPanel implements KeyListener{
     	setFocusable(true);
     	setFocusTraversalKeysEnabled(false);
     	gi = new GameInstance(dimension, dimension, sight, DEFAULT_NAME);
+    	this.maze = gi.getMaze();
     	
     	this.terrainGrid = new Color[(dimension * 2 + 1)][(dimension * 2 + 1)];
 
@@ -72,7 +76,7 @@ public class Map extends JPanel implements KeyListener{
     	updateGrid(gi.printMaze(this.sight));
 
  
-        setPreferredSize(new Dimension(windowDimension, windowDimension));
+        setPreferredSize(new Dimension(windowDimension + 250, windowDimension));
 
         this.displayController = displayController;
         addButton();
@@ -82,8 +86,10 @@ public class Map extends JPanel implements KeyListener{
         Dimension menuDimension = this.getPreferredSize();
         int buttonHeight = (int)(menuDimension.getHeight()/10);
         int buttonWidth = (int)(menuDimension.getWidth()/4);
-        
-        final JButton rageQuit = new JButton("rageQuit");
+        Font buttonFont = new Font("Arial", Font.BOLD, 15 );
+
+
+        final JButton rageQuit = new JButton("Rage Quit!");
         rageQuit.setOpaque(false);
         rageQuit.setContentAreaFilled(false);
         rageQuit.setSize(buttonWidth, buttonHeight);
@@ -91,7 +97,10 @@ public class Map extends JPanel implements KeyListener{
         rageQuit.setLocation(0, buttonHeight*9);
         rageQuit.setForeground(Color.CYAN);
         rageQuit.setBorderPainted(false);
+        rageQuit.setFont(buttonFont);
+
         
+
 
         rageQuit.addMouseListener(new MouseAdapter(){
             @Override
@@ -164,36 +173,23 @@ public class Map extends JPanel implements KeyListener{
                 int height = (j%2 == 0)? wall_pixel_dimension : rectDimension;
                 g.fillRect(x, y, width, height);
             }
+
         }
-    }
 
-    /*public static void main(String[] args) {
-        // http://docs.oracle.com/javase/tutorial/uiswing/concurrency/initial.html
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                JFrame frame = new JFrame("BATTLEFIELD ONE     Soon\u2122");
-<<<<<<< HEAD
-                Map map = new Map(30,30,5);
-=======
-                Map map = new Map(30,5);
-                frame.setResizable(false);
->>>>>>> 8d49c1c316a2a846c65e56a0000d4f6a8aea9b2b
-                frame.addKeyListener(map.getKeyListeners()[0]);
-                frame.add(map);
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.pack();
-                frame.setVisible(true);
-                frame.setFocusable(true);
-                frame.setResizable(false);
-            }
-        });
-    }
-    */
+        //paint rageQuit button
+        Dimension menuDimension = this.getPreferredSize();
+               int buttonHeight = (int)(menuDimension.getHeight()/10);
+        int buttonWidth = (int)(menuDimension.getWidth()/4);
 
+        Rectangle rageQuitRect = new Rectangle(0, buttonHeight*9, buttonWidth, buttonHeight);
+        g.setColor(new Color((float)50/255, (float)50/255, (float)50/255, (float)0.5));
+        g.fillRoundRect((int)rageQuitRect.getX() + 10, (int)rageQuitRect.getY() + 10, 
+            (int)rageQuitRect.getWidth()-20, (int)rageQuitRect.getHeight()- 20, 10, 10);
+
+    }
+    
 	@Override
 	public void keyTyped(KeyEvent e) {
-		
-		
 	}
 	
 	@Override
@@ -213,8 +209,7 @@ public class Map extends JPanel implements KeyListener{
 		// update maze
 		updateGrid(gi.printMaze(this.sight));
 		// update display
-		repaint();
-		
+		repaint();	
 	}
 
 	@Override

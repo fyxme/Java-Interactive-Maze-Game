@@ -47,23 +47,16 @@ public class SettingsMenu extends JPanel {
         try {                
             this.backgroundImage = ImageIO.read(new File("./src/bliss.jpg"));
         } catch (IOException ex) {
-            // handle exception...
+            System.exit(1);
         }
-
 
         this.displayController = displayController;
         
-
         addComponents();
         addFields();
 
-      
-
         buttonColor = new Color((float)50/255, (float)50/255, (float)50/255, (float)0.65);
 
-        
-
-        
     }
 
     private void addFields(){
@@ -114,10 +107,11 @@ public class SettingsMenu extends JPanel {
         Dimension menuDimension = this.getPreferredSize();
         int buttonHeight = (int)(menuDimension.getHeight()/10);
         int buttonWidth = (int)(menuDimension.getWidth()/4);
-        JButton easyPreset = new JButton("Easy", new ImageIcon(backgroundImage));
+        JButton easyPreset = new JButton("Easy");
         JButton medPreset = new JButton("Medium");
         JButton hardPreset = new JButton("Hard");
         JButton done = new JButton("Done");
+        Font buttonFont = new Font("Arial", Font.PLAIN, 20);
 
         easyPreset.setBounds(buttonWidth*1/2, 
             buttonHeight*3, buttonWidth, buttonHeight);
@@ -137,6 +131,11 @@ public class SettingsMenu extends JPanel {
         easyPreset.setVisible(true);
         medPreset.setVisible(true);
         hardPreset.setVisible(true);
+
+        easyPreset.setFont(buttonFont);
+        medPreset.setFont(buttonFont);
+        hardPreset.setFont(buttonFont);
+        done.setFont(buttonFont);
 
         easyPreset.addMouseListener(new MouseAdapter(){
             @Override

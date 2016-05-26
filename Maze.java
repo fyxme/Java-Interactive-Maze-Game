@@ -7,7 +7,7 @@ import java.util.Stack;
  *
  */
 public class Maze {
-	private Tile start_tile = null;
+	private Tile initial_tile = null;
 	private Tile[][] maze = null;
 	private int width,height = 0;
 	
@@ -57,7 +57,7 @@ public class Maze {
 			}
 		}
 
-		start_tile = temp[0][0]; // keep start tile only
+		initial_tile = temp[0][0]; // keep start tile only
 		
 		temp = null;
 	}
@@ -284,12 +284,12 @@ public class Maze {
 	
 	public void generateMaze() {
 		// add all cells to the unvisited list
-		List<Tile> unvisited = getAllTiles(start_tile,null);
+		List<Tile> unvisited = getAllTiles(initial_tile,null);
 		
 		// remove start tile from unvisited list
-		unvisited.remove(start_tile);
+		unvisited.remove(initial_tile);
 		
-		recursiveBacktracker(start_tile,unvisited,new Stack<Tile>());
+		recursiveBacktracker(initial_tile,unvisited,new Stack<Tile>());
 	}
 	
 	private List<Tile> getTilesForLine(Tile current,List<Tile>tiles) {
@@ -306,19 +306,12 @@ public class Maze {
 		return getAllTiles(current.getDown().getConnectedTile(current),getTilesForLine(current,tiles));
 	}
 
-	public Tile getStartTile() {
-		return this.start_tile;
+	public Tile getEndTile() {
+		return this.initial_tile;
 	}
 	
-	public Tile getEndTile(Tile c) {
-		
-		if (c.getDown() != null) 
-			return getEndTile(c.getDown().getConnectedTile(c));
-		
-		if (c.getRight() != null)
-			return getEndTile(c.getRight().getConnectedTile(c));
-		
-		return c;
+	public Tile getStartTile() {
+		return maze[width-1][height-1];
 	}
 	
 	public int getRedCount() {
