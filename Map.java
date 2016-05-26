@@ -79,7 +79,7 @@ public class Map extends JPanel implements KeyListener{
     }
 
     private void addButton(){
-        Dimension menuDimension = this.getSize();
+        Dimension menuDimension = this.getPreferredSize();
         int buttonHeight = (int)(menuDimension.getHeight()/10);
         int buttonWidth = (int)(menuDimension.getWidth()/4);
         
