@@ -3,11 +3,9 @@
 - Update compile
 - UML Backend
 - UML Front
-- Resize problem *
 
 ---- BACKEND
-- Player
-	- Steps taken
+- hasWon()
 
 ---- FRONTEND
 - Main menu

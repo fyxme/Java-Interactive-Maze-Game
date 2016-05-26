@@ -3,10 +3,15 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.JButton;
 
 public class Map extends JPanel implements KeyListener{
 	private static final int LEFT = 0;
@@ -26,44 +31,84 @@ public class Map extends JPanel implements KeyListener{
     
     GameInstance gi = null;
     
-    private int block_pixel_dimension;
+    private int block_pixel_dimension,wall_pixel_dimension;
 	private int sight;
-	private int w_width;
-	private int w_height;
+	private int dimension;
+	private int wallFraction = 8;
 	private static final String DEFAULT_NAME = "Ronin the Conqueror of Worlds";
+
+    private GameDisplay displayController;
     
     // In reality you will probably want a class here to represent a map tile,
     // which will include things like dimensions, color, properties in the
     // game world.  Keeping simple just to illustrate.
     private Color[][] terrainGrid;
 
-    public Map(int rows, int cols, int sight){
+    
+    public Map(GameDisplay displayController, int dimension, int sight){
     	this.sight = sight;
-    	
-    	if(sight == 0) {
-    		w_width = cols;
-    		w_height = rows;
-    		block_pixel_dimension = 20;
-    	}else {
-    		w_width = sight * 2 + 1;
-    		w_height = sight * 2 + 1;
-    		block_pixel_dimension = 500/((sight*2)+1);
+		this.dimension = dimension;
+        this.displayController = displayController;
+
+        setLayout(null);
+		int windowDimension = 700;
+		
+    	if(sight > 0) {
+    		this.dimension = sight*2+1;
     	}
     	
+    	wall_pixel_dimension = windowDimension/(this.dimension*wallFraction);
+    	block_pixel_dimension = wall_pixel_dimension*wallFraction;
+		windowDimension = (block_pixel_dimension*(this.dimension))+wall_pixel_dimension;
         // generate new game instance
     	addKeyListener(this);
     	setFocusable(true);
     	setFocusTraversalKeysEnabled(false);
-    	gi = new GameInstance(rows, cols, DEFAULT_NAME);
+    	gi = new GameInstance(dimension, dimension, sight, DEFAULT_NAME);
     	
-    	this.terrainGrid = new Color[(w_height * 2 + 1)][(w_width * 2 + 1)];
+    	this.terrainGrid = new Color[(dimension * 2 + 1)][(dimension * 2 + 1)];
 
     	System.out.println(gi.printMaze(this.sight));
     	updateGrid(gi.printMaze(this.sight));
+
  
-        int preferredWidth = (w_width * 2 + 1) * block_pixel_dimension;
-        int preferredHeight = (w_height * 2 + 1) * block_pixel_dimension;
-        setPreferredSize(new Dimension(preferredWidth, preferredHeight));
+        setPreferredSize(new Dimension(windowDimension, windowDimension));
+
+        this.displayController = displayController;
+        addButton();
+    }
+
+    private void addButton(){
+        Dimension menuDimension = this.getSize();
+        int buttonHeight = (int)(menuDimension.getHeight()/10);
+        int buttonWidth = (int)(menuDimension.getWidth()/4);
+        
+        final JButton rageQuit = new JButton("rageQuit");
+        rageQuit.setOpaque(false);
+        rageQuit.setContentAreaFilled(false);
+        rageQuit.setSize(buttonWidth, buttonHeight);
+        rageQuit.setBounds(0, buttonHeight*9, buttonWidth, buttonHeight);
+        rageQuit.setLocation(0, buttonHeight*9);
+        rageQuit.setForeground(Color.WHITE);
+        rageQuit.setBorderPainted(false);
+        
+
+        rageQuit.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                displayController.swapPanel("MainMenu");
+            }
+            @Override
+            public void mouseEntered(MouseEvent e){
+                rageQuit.setForeground(Color.RED);
+            }
+            @Override
+            public void mouseExited(MouseEvent e){
+                rageQuit.setForeground(Color.WHITE);
+            }
+        });
+
+        add(rageQuit);
     }
 
     public void updateGrid(String maze) {
@@ -102,34 +147,37 @@ public class Map extends JPanel implements KeyListener{
         // Clear the board
         g.clearRect(0, 0, getWidth(), getHeight());
         // Draw the grid
-        int rectWidth = (80 * getWidth())/(w_width * 100 + block_pixel_dimension *  (w_width + 1));
-        int rectHeight = (80 * getHeight())/(w_height * 100 + block_pixel_dimension *  (w_height + 1));
-        int wallWidth = 20 * rectWidth / 100;
-        int wallHeight = 20 * rectHeight / 100;
+        
+        int rectDimension = block_pixel_dimension - wall_pixel_dimension;
 
         int x = 0;
         int y = 0;
-        for (int i = 0; i < w_width * 2 + 1; i++) {
-            for (int j = 0; j < w_height * 2 + 1; j++) {
+        for (int i = 0; i < dimension * 2 + 1; i++) {
+            for (int j = 0; j < dimension * 2 + 1; j++) {
                 // Upper left corner of this terrain rect
-            	x = ((int)i/2) * rectWidth + (int)(i+1)/2 * wallHeight;
-                y = ((int)j/2) * rectHeight + (int)(j+1)/2 * wallWidth;
+            	x = ((int)i/2) * rectDimension + (int)(i+1)/2 * wall_pixel_dimension;
+                y = ((int)j/2) * rectDimension + (int)(j+1)/2 * wall_pixel_dimension;
                 Color terrainColor = terrainGrid[i][j];
                 g.setColor(terrainColor);
                 
-                int width = (i%2 == 0)? wallWidth : rectWidth; 
-                int height = (j%2 == 0)? wallWidth : rectWidth;
+                int width = (i%2 == 0)? wall_pixel_dimension : rectDimension; 
+                int height = (j%2 == 0)? wall_pixel_dimension : rectDimension;
                 g.fillRect(x, y, width, height);
             }
         }
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         // http://docs.oracle.com/javase/tutorial/uiswing/concurrency/initial.html
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 JFrame frame = new JFrame("BATTLEFIELD ONE     Soon\u2122");
+<<<<<<< HEAD
                 Map map = new Map(30,30,5);
+=======
+                Map map = new Map(30,5);
+                frame.setResizable(false);
+>>>>>>> 8d49c1c316a2a846c65e56a0000d4f6a8aea9b2b
                 frame.addKeyListener(map.getKeyListeners()[0]);
                 frame.add(map);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -140,6 +188,7 @@ public class Map extends JPanel implements KeyListener{
             }
         });
     }
+    */
 
 	@Override
 	public void keyTyped(KeyEvent e) {

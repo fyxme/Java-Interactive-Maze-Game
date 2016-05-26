@@ -5,8 +5,9 @@ public class GameInstance {
 	private Player player;
 	private Maze maze;
 	
-	public GameInstance (int width, int height, String name) {
-		this.maze = new Maze(width,height);
+	public GameInstance (int width, int height, int sight, String name) {
+		this.maze = new Maze(width,height,sight);
+		
 		this.player = new Player(name);
 		this.player.setPosition(this.maze.getEndTile(this.maze.getStartTile()));
 	}

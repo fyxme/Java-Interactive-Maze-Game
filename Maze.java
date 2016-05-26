@@ -19,6 +19,16 @@ public class Maze {
 		initialiseMaze(width,height);
 		generateMaze();
 	}
+
+	public Maze (int width, int height, int sight) {
+		this.maze = new Tile[width][height];
+		// initialise maze
+		this.width = width;
+		this.height = height;
+		initialiseMaze(width,height);
+		generateMaze();
+		//DEFAULT_SIGHT = sight;
+	}
 	
 	private void initialiseMaze( int width, int height) {
 		
@@ -309,5 +319,37 @@ public class Maze {
 			return getEndTile(c.getRight().getConnectedTile(c));
 		
 		return c;
+	}
+	
+	public int getRedCount() {
+		int c = 0;
+		for(int i = 0; i < this.width; i++) {
+			for(int j = 0; j < this.height; j++) {
+				if (maze[i][j].hasBeenVisited() == 2) {
+					c++;
+				}
+			}
+		}
+		return c;
+	}
+	
+	public int getGreenCount() {
+		int c = 0;
+		for(int i = 0; i < this.width; i++) {
+			for(int j = 0; j < this.height; j++) {
+				if (maze[i][j].hasBeenVisited() == 1) {
+					c++;
+				}
+			}
+		}
+		return c;
+	}
+	
+	public int getUnvisitedCount() {
+		return this.getTotalCount() - this.getGreenCount() - this.getRedCount();
+	}
+	
+	public int getTotalCount() {
+		return this.width * this.height;
 	}
 }
