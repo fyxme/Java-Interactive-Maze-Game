@@ -3,11 +3,15 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.JButton;
 
 public class Map extends JPanel implements KeyListener{
 	private static final int LEFT = 0;
@@ -44,7 +48,9 @@ public class Map extends JPanel implements KeyListener{
     public Map(GameDisplay displayController, int dimension, int sight){
     	this.sight = sight;
 		this.dimension = dimension;
+        this.displayController = displayController;
     	
+        setLayout(null);
 		int windowDimension = 700;
 		
     	if(sight > 0) {
@@ -64,10 +70,45 @@ public class Map extends JPanel implements KeyListener{
 
     	System.out.println(gi.printMaze(this.sight));
     	updateGrid(gi.printMaze(this.sight));
+
  
         setPreferredSize(new Dimension(windowDimension, windowDimension));
 
         this.displayController = displayController;
+        addButton();
+    }
+
+    private void addButton(){
+        Dimension menuDimension = this.getSize();
+        int buttonHeight = (int)(menuDimension.getHeight()/10);
+        int buttonWidth = (int)(menuDimension.getWidth()/4);
+        
+        final JButton rageQuit = new JButton("rageQuit");
+        rageQuit.setOpaque(false);
+        rageQuit.setContentAreaFilled(false);
+        rageQuit.setSize(buttonWidth, buttonHeight);
+        rageQuit.setBounds(0, buttonHeight*9, buttonWidth, buttonHeight);
+        rageQuit.setLocation(0, buttonHeight*9);
+        rageQuit.setForeground(Color.WHITE);
+        rageQuit.setBorderPainted(false);
+        
+
+        rageQuit.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                displayController.swapPanel("MainMenu");
+            }
+            @Override
+            public void mouseEntered(MouseEvent e){
+                rageQuit.setForeground(Color.RED);
+            }
+            @Override
+            public void mouseExited(MouseEvent e){
+                rageQuit.setForeground(Color.WHITE);
+            }
+        });
+
+        add(rageQuit);
     }
 
     public void updateGrid(String maze) {
