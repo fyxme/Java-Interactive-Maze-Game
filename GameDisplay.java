@@ -86,7 +86,7 @@ public class GameDisplay {
         CardLayout cl = (CardLayout)(cards.getLayout());
 
         if(panelName.equals("Map")){
-            cards.add(new Map(mazeSize, sight), "Map");
+            cards.add(new Map(this, mazeSize, sight), "Map");
         }
 
         cl.show(cards, panelName);

@@ -3,10 +3,14 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.JButton;
 
 public class Map extends JPanel implements KeyListener{
 	private static final int LEFT = 0;
@@ -31,6 +35,7 @@ public class Map extends JPanel implements KeyListener{
 	private int dimension;
 	private int wallFraction = 8;
 	private static final String DEFAULT_NAME = "Ronin the Conqueror of Worlds";
+    GameDisplay displayController;
     
     // In reality you will probably want a class here to represent a map tile,
     // which will include things like dimensions, color, properties in the
@@ -38,10 +43,12 @@ public class Map extends JPanel implements KeyListener{
     private Color[][] terrainGrid;
 
     
-    public Map(int dimension, int sight){
+    public Map(GameDisplay displayController, int dimension, int sight){
     	this.sight = sight;
 		this.dimension = dimension;
+        this.displayController = displayController;
     	
+        setLayout(null);
 		int windowDimension = 700;
 		
     	if(sight > 0) {
@@ -62,8 +69,44 @@ public class Map extends JPanel implements KeyListener{
 
     	System.out.println(gi.printMaze(this.sight));
     	updateGrid(gi.printMaze(this.sight));
+
  
         setPreferredSize(new Dimension(windowDimension, windowDimension));
+
+        addButton();
+    }
+
+    private void addButton(){
+        Dimension menuDimension = this.getSize();
+        int buttonHeight = (int)(473/10);
+        int buttonWidth = (int)(473/4);
+        
+        final JButton rageQuit = new JButton("rageQuit");
+        rageQuit.setOpaque(false);
+        rageQuit.setContentAreaFilled(false);
+        rageQuit.setSize(buttonWidth, buttonHeight);
+        rageQuit.setBounds(0, buttonHeight*9, buttonWidth, buttonHeight);
+        rageQuit.setLocation(0, buttonHeight*9);
+        rageQuit.setForeground(Color.WHITE);
+        rageQuit.setBorderPainted(false);
+        
+
+        rageQuit.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                displayController.swapPanel("MainMenu");
+            }
+            @Override
+            public void mouseEntered(MouseEvent e){
+                rageQuit.setForeground(Color.RED);
+            }
+            @Override
+            public void mouseExited(MouseEvent e){
+                rageQuit.setForeground(Color.WHITE);
+            }
+        });
+
+        add(rageQuit);
     }
 
     public void updateGrid(String maze) {
@@ -122,7 +165,7 @@ public class Map extends JPanel implements KeyListener{
         }
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         // http://docs.oracle.com/javase/tutorial/uiswing/concurrency/initial.html
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
@@ -138,6 +181,7 @@ public class Map extends JPanel implements KeyListener{
             }
         });
     }
+    */
 
 	@Override
 	public void keyTyped(KeyEvent e) {
