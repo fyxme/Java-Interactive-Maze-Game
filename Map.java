@@ -89,7 +89,7 @@ public class Map extends JPanel implements KeyListener{
         rageQuit.setSize(buttonWidth, buttonHeight);
         rageQuit.setBounds(0, buttonHeight*9, buttonWidth, buttonHeight);
         rageQuit.setLocation(0, buttonHeight*9);
-        rageQuit.setForeground(Color.WHITE);
+        rageQuit.setForeground(Color.CYAN);
         rageQuit.setBorderPainted(false);
         
 
@@ -104,7 +104,7 @@ public class Map extends JPanel implements KeyListener{
             }
             @Override
             public void mouseExited(MouseEvent e){
-                rageQuit.setForeground(Color.WHITE);
+                rageQuit.setForeground(Color.CYAN);
             }
         });
 
