@@ -84,7 +84,8 @@ public class Map extends JPanel implements KeyListener{
         Dimension menuDimension = this.getPreferredSize();
         int buttonHeight = (int)(menuDimension.getHeight()/10);
         int buttonWidth = (int)(menuDimension.getWidth()/4);
-        Font buttonFont = new Font("Arial", Font.BOLD, 20);
+        Font buttonFont = new Font("Arial", Font.BOLD, 15 );
+
 
         final JButton rageQuit = new JButton("Rage Quit!");
         rageQuit.setOpaque(false);
@@ -175,15 +176,13 @@ public class Map extends JPanel implements KeyListener{
 
         //paint rageQuit button
         Dimension menuDimension = this.getPreferredSize();
-        int buttonHeight = (int)(menuDimension.getHeight()/10);
+               int buttonHeight = (int)(menuDimension.getHeight()/10);
         int buttonWidth = (int)(menuDimension.getWidth()/4);
 
         Rectangle rageQuitRect = new Rectangle(0, buttonHeight*9, buttonWidth, buttonHeight);
-        g.setColor(new Color((float)50/255, (float)50/255, (float)50/255, (float)0.65));
-        g.fillRoundRect((int)rageQuitRect.getX(), (int)rageQuitRect.getY(), 
-            (int)rageQuitRect.getWidth(), (int)rageQuitRect.getHeight(), 10, 10);
-
-
+        g.setColor(new Color((float)50/255, (float)50/255, (float)50/255, (float)0.5));
+        g.fillRoundRect((int)rageQuitRect.getX() + 10, (int)rageQuitRect.getY() + 10, 
+            (int)rageQuitRect.getWidth()-20, (int)rageQuitRect.getHeight()- 20, 10, 10);
 
     }
 
