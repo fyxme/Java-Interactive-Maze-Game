@@ -31,4 +31,11 @@ public class GameInstance {
 		player.move(mv);
 	}
 	
+	/**
+	 * Returns the maze being used
+	 * @return
+	 */
+	public Maze getMaze() {
+		return maze;
+	}
 }

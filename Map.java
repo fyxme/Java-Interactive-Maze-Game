@@ -33,6 +33,7 @@ public class Map extends JPanel implements KeyListener{
     
     GameInstance gi = null;
     
+    private Maze maze;
     private int block_pixel_dimension,wall_pixel_dimension;
 	private int sight;
 	private int dimension;
@@ -67,6 +68,7 @@ public class Map extends JPanel implements KeyListener{
     	setFocusable(true);
     	setFocusTraversalKeysEnabled(false);
     	gi = new GameInstance(dimension, dimension, sight, DEFAULT_NAME);
+    	this.maze = gi.getMaze();
     	
     	this.terrainGrid = new Color[(dimension * 2 + 1)][(dimension * 2 + 1)];
 
@@ -185,8 +187,7 @@ public class Map extends JPanel implements KeyListener{
             (int)rageQuitRect.getWidth()-20, (int)rageQuitRect.getHeight()- 20, 10, 10);
 
     }
-
-
+    
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
@@ -208,8 +209,7 @@ public class Map extends JPanel implements KeyListener{
 		// update maze
 		updateGrid(gi.printMaze(this.sight));
 		// update display
-		repaint();
-		
+		repaint();	
 	}
 
 	@Override
