@@ -49,7 +49,7 @@ public class Map extends JPanel implements KeyListener{
     	this.sight = sight;
 		this.dimension = dimension;
         this.displayController = displayController;
-    	
+
         setLayout(null);
 		int windowDimension = 700;
 		
@@ -172,8 +172,12 @@ public class Map extends JPanel implements KeyListener{
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 JFrame frame = new JFrame("BATTLEFIELD ONE     Soon\u2122");
+<<<<<<< HEAD
+                Map map = new Map(30,30,5);
+=======
                 Map map = new Map(30,5);
                 frame.setResizable(false);
+>>>>>>> 8d49c1c316a2a846c65e56a0000d4f6a8aea9b2b
                 frame.addKeyListener(map.getKeyListeners()[0]);
                 frame.add(map);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

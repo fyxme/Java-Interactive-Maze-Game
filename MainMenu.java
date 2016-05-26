@@ -39,7 +39,7 @@ public class MainMenu extends JPanel {
         setPreferredSize(new Dimension(preferredWidth, preferredHeight));
 
         try {                
-            this.backgroundImage = ImageIO.read(new File("bliss.jpg"));
+            this.backgroundImage = ImageIO.read(new File("./src/bliss.jpg"));
         } catch (IOException ex) {
             // handle exception...
         }
@@ -125,8 +125,6 @@ public class MainMenu extends JPanel {
 */
 
         addButtons();
-
-      
 
         buttonColor = new Color((float)50/255, (float)50/255, (float)50/255, (float)0.65);
 
