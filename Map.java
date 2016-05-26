@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -31,14 +32,17 @@ public class Map extends JPanel implements KeyListener{
 	private int dimension;
 	private int wallFraction = 8;
 	private static final String DEFAULT_NAME = "Ronin the Conqueror of Worlds";
+
+    private GameDisplay displayController;
     
     // In reality you will probably want a class here to represent a map tile,
     // which will include things like dimensions, color, properties in the
     // game world.  Keeping simple just to illustrate.
     private Color[][] terrainGrid;
 
+//<<<<<<< HEAD
     
-    public Map(int dimension, int sight){
+    public Map(GameDisplay displayController, int dimension, int sight){
     	this.sight = sight;
 		this.dimension = dimension;
     	
@@ -51,19 +55,62 @@ public class Map extends JPanel implements KeyListener{
     	wall_pixel_dimension = windowDimension/(this.dimension*wallFraction);
     	block_pixel_dimension = wall_pixel_dimension*wallFraction;
 		windowDimension = (block_pixel_dimension*(this.dimension))+wall_pixel_dimension;
-    	
+/*    	
+=======
+    public Map(GameDisplay displayController){
+//    	this.terrainGrid = new Color[NUM_ROWS][NUM_COLS];
+>>>>>>> ui
+*/
         // generate new game instance
     	addKeyListener(this);
     	setFocusable(true);
     	setFocusTraversalKeysEnabled(false);
-    	gi = new GameInstance(dimension, dimension, DEFAULT_NAME);
+//<<<<<<< HEAD
+    	gi = new GameInstance(dimension, dimension, sight, DEFAULT_NAME);
+/*
+=======
+    	gi = new GameInstance(MAZE_ROWS, MAZE_COLS, 3, DEFAULT_NAME);
+>>>>>>> ui
+*/
     	
     	this.terrainGrid = new Color[(dimension * 2 + 1)][(dimension * 2 + 1)];
 
     	System.out.println(gi.printMaze(this.sight));
     	updateGrid(gi.printMaze(this.sight));
  
+//<<<<<<< HEAD
         setPreferredSize(new Dimension(windowDimension, windowDimension));
+
+        this.displayController = displayController;
+/*
+=======
+        int preferredWidth = (WINDOW_WIDTH * 2 + 1) * PREFERRED_GRID_SIZE_PIXELS;
+        int preferredHeight = (WINDOW_HEIGHT * 2 + 1) * PREFERRED_GRID_SIZE_PIXELS;
+        setPreferredSize(new Dimension(preferredWidth, preferredHeight));
+
+        this.displayController = displayController;
+    }
+
+    public Map(GameDisplay displayController, int mazeSize, int sight){
+//      this.terrainGrid = new Color[NUM_ROWS][NUM_COLS];
+        // generate new game instance
+        addKeyListener(this);
+        setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
+        gi = new GameInstance(mazeSize, mazeSize, sight, DEFAULT_NAME);
+        
+        this.terrainGrid = new Color[(WINDOW_WIDTH * 2 + 1)][(WINDOW_HEIGHT * 2 + 1)];
+
+        System.out.println(gi.getMazeAsString());
+        updateGrid(gi.getMazeAsString());
+ 
+        int preferredWidth = (WINDOW_WIDTH * 2 + 1) * PREFERRED_GRID_SIZE_PIXELS;
+        int preferredHeight = (WINDOW_HEIGHT * 2 + 1) * PREFERRED_GRID_SIZE_PIXELS;
+        setPreferredSize(new Dimension(preferredWidth, preferredHeight));
+
+        this.displayController = displayController;
+>>>>>>> ui
+*/
     }
 
     public void updateGrid(String maze) {
@@ -122,7 +169,7 @@ public class Map extends JPanel implements KeyListener{
         }
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         // http://docs.oracle.com/javase/tutorial/uiswing/concurrency/initial.html
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
@@ -135,9 +182,11 @@ public class Map extends JPanel implements KeyListener{
                 frame.pack();
                 frame.setVisible(true);
                 frame.setFocusable(true);
+                frame.setResizable(false);
             }
         });
     }
+    */
 
 	@Override
 	public void keyTyped(KeyEvent e) {
