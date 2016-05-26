@@ -69,7 +69,8 @@ public class GameDisplay {
         //add JPanels
         cards.add(new MainMenu(this), "MainMenu");
         cards.add(new SettingsMenu(this), "SettingsMenu");
-        cards.add(new Map(this, mazeSize, sight), "Map");
+        //cards.add(new Map(this, mazeSize, sight), "Map");
+        
         CardLayout cl = (CardLayout)(cards.getLayout());
         //cl.show(cards, "MainMenu");
 
@@ -84,6 +85,10 @@ public class GameDisplay {
 
     public void swapPanel(String panelName){
         CardLayout cl = (CardLayout)(cards.getLayout());
+
+        if(panelName.equals("Map")){
+            cards.add(new Map(this,mazeSize,sight), "Map");
+        }
 
         cl.show(cards, panelName);
         for(Component c : cards.getComponents()){
