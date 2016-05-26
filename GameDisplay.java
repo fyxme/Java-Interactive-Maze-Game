@@ -31,39 +31,80 @@
 
 import java.awt.*;
 import javax.swing.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /* TopLevelDemo.java requires no other files. */
 public class GameDisplay {
+    private JPanel cards;
+    private int mazeSize = 20;
+    private int sight = 5;
+
+    public int getMazeSize(){
+        return mazeSize;
+    }
+
+    public int getSight(){
+        return sight;
+    }
+
+    public GameDisplay(){
+        createAndShowGUI();
+    }
     /**
      * Create the GUI and show it.  For thread safety,
      * this method should be invoked from the
      * event-dispatching thread.
      */
 
-    private static void createAndShowGUI() {
+
+    private void createAndShowGUI() {
         //Create and set up the window.
-        JFrame frame = new JFrame("TopLevelDemo");
+        JFrame frame = new JFrame("Battlefield One");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //Create the menu bar.  Make it have a green background.
-        JMenuBar greenMenuBar = new JMenuBar();
-        greenMenuBar.setOpaque(true);
-        greenMenuBar.setPreferredSize(new Dimension(200, 20));
+        //create CardLayout manager
+        cards = new JPanel(new CardLayout());
 
-        //Create a yellow label to put in the content pane.
-        JLabel yellowLabel = new JLabel();
-        yellowLabel.setOpaque(true);
-        yellowLabel.setBackground(Color.WHITE);
-        yellowLabel.setPreferredSize(new Dimension(200, 180));
+        //add JPanels
+        cards.add(new MainMenu(this), "MainMenu");
+        cards.add(new SettingsMenu(this), "SettingsMenu");
+        
+        CardLayout cl = (CardLayout)(cards.getLayout());
+        //cl.show(cards, "MainMenu");
 
-        //Set the menu bar and add the label to the content pane.
-        frame.setJMenuBar(greenMenuBar);
-        frame.getContentPane().add(yellowLabel, BorderLayout.CENTER);
-
-
+        
         //Display the window.
+        frame.getContentPane().add(cards);
         frame.pack();
+        frame.setResizable(false);
         frame.setVisible(true);
+        
+    }
+
+    public void swapPanel(String panelName){
+        CardLayout cl = (CardLayout)(cards.getLayout());
+
+        if(panelName.equals("Map")){
+            cards.add(new Map(mazeSize, sight), "Map");
+        }
+
+        cl.show(cards, panelName);
+        for(Component c : cards.getComponents()){
+            if(c.isVisible()){
+                c.setFocusable(true);
+                c.requestFocusInWindow();
+            }
+        }
+
+        System.out.println("switching to: " + panelName);
+    }
+
+
+
+    public void setMazeSettings(int mazeSize, int sight){
+        this.mazeSize = mazeSize;
+        this.sight = sight;
     }
 
     public static void main(String[] args) {
@@ -71,7 +112,8 @@ public class GameDisplay {
         //creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                createAndShowGUI();
+                GameDisplay g = new GameDisplay();
+            //inloop();
             }
         });
     }
