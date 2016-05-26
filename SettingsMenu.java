@@ -74,8 +74,8 @@ public class SettingsMenu extends JPanel {
         vision = new JFormattedTextField(NumberFormat.getNumberInstance());
         
         System.out.println(displayController.getMazeSize());
-        size.setValue(displayController.getMazeSize());
-        vision.setValue(displayController.getSight());
+        size.setValue(new Integer(displayController.getMazeSize()));
+        vision.setValue(new Integer(displayController.getSight()));
 
         size.addPropertyChangeListener("value1", new PropertyChangeListener(){
             @Override
@@ -165,7 +165,9 @@ public class SettingsMenu extends JPanel {
         done.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e){
-                displayController.setMazeSettings((int)size.getValue(), (int)vision.getValue());
+                System.out.println(vision.getValue());
+                displayController.setMazeSettings(((Number)size.getValue()).intValue(), ((Number)vision.getValue()).intValue());
+
                 displayController.swapPanel("MainMenu");
             }
         });
