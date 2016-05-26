@@ -9,7 +9,7 @@ public class GameInstance {
 		this.maze = new Maze(width,height,sight);
 		
 		this.player = new Player(name);
-		this.player.setPosition(this.maze.getEndTile(this.maze.getStartTile()));
+		this.player.setPosition(this.maze.getStartTile());
 	}
 
 	/**
