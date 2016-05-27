@@ -55,6 +55,13 @@ public class Map extends JPanel implements KeyListener{
     
 
     
+    /**
+     * @param displayController	a GameDisplay object
+     * @param dimension			dimension of the maze to be generated
+     * @param sight				vision radius of the player
+     * @precondition			a GameDisplay must exist & (sight < (mazeSize/2 - 1))
+     * @postcondition			a Map is created with a maze generated to the dimension supplied
+     */
     public Map(GameDisplay displayController, int dimension, int sight){
     	this.sight = sight;
 		this.dimension = dimension;
@@ -92,6 +99,10 @@ public class Map extends JPanel implements KeyListener{
         addHowToPlay();
     }
     
+    /**
+     * @precondition	SettingsMenu constructor is run
+     * @postcondition	JTextArea containing instructions are added to the panel
+     */
     private void addHowToPlay(){
     	Dimension menuDimension = this.getPreferredSize();
         int width = (int)menuDimension.getWidth();
@@ -99,14 +110,11 @@ public class Map extends JPanel implements KeyListener{
         int labelWidth = 200;
         int gap = 24;
         Font textFont = new Font("Arial", Font.PLAIN, 20 );
-        //Font titleFont = new Font("Arial", Font.BOLD, 30 );
         
         String howToPlayText = ("Use the arrow keys or the 'WASD' keys to try and"
         		+ " reach the top right corner of the map!");
         JTextArea text = new JTextArea(howToPlayText);
 
-        //title.setSize(labelWidth, labelHeight*3);
-        //title.setBounds(width - labelWidth - gap, labelHeight, labelWidth, labelHeight);
         text.setBounds(width - labelWidth - gap, labelHeight*3, labelWidth, labelHeight*5);
         text.setLocation(width - labelWidth - gap, labelHeight*3);
         
@@ -118,12 +126,13 @@ public class Map extends JPanel implements KeyListener{
         text.setEditable(false);
         text.setEnabled(false);
         text.setDisabledTextColor(BLACK);
-        //title.setFont(titleFont);
-        
-        //add(title);
         add(text);
     }
     
+    /**
+     * @precondition	SettingsMenu constructor is run
+     * @postcondition	JButtons are added to the panel
+     */
     private void addButtons(){
         Dimension menuDimension = this.getPreferredSize();
         int width = (int)menuDimension.getWidth();
@@ -132,14 +141,9 @@ public class Map extends JPanel implements KeyListener{
         int gap = 24;
         Font buttonFont = new Font("Arial", Font.BOLD, 30 );
 
-      
-        //rageQuit.setOpaque(false);
-        //rageQuit.setContentAreaFilled(false);
         rageQuit.setSize(buttonWidth, buttonHeight);
         rageQuit.setBounds(width - buttonWidth - gap, buttonHeight * 17/2, buttonWidth, buttonHeight);
         rageQuit.setLocation(width - buttonWidth - gap, buttonHeight*17/2);
-        //rageQuit.setForeground(Color.CYAN);
-        //rageQuit.setBorderPainted(false);
         rageQuit.setFont(buttonFont);
         
         buttonFont = new Font("Arial", Font.PLAIN, 20 );
@@ -193,6 +197,11 @@ public class Map extends JPanel implements KeyListener{
         add(mainMenu);
     }
 
+    /**
+     * @param maze		an ASCII representation of maze
+     * @precondition	valid maze string
+     * @postcondition	maze is converted a 2d array of Colors
+     */
     public void updateGrid(String maze) {
     	int i = 0;
     	int j = 0;
@@ -222,6 +231,9 @@ public class Map extends JPanel implements KeyListener{
     	}
     }
     
+    /* (non-Javadoc)
+     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+     */
     @Override
     public void paintComponent(Graphics g) {
         // Important to call super class method
@@ -249,6 +261,7 @@ public class Map extends JPanel implements KeyListener{
 
         }
         
+        
         Dimension menuDimension = this.getPreferredSize();
         int height = (int)menuDimension.getHeight();
         int width = (int)menuDimension.getWidth();
@@ -256,11 +269,13 @@ public class Map extends JPanel implements KeyListener{
         int titleWidth = 200;
         int gap = 24;
         
+        //paint right menu background
         Rectangle menuRect = new Rectangle( (int)(width - titleWidth - gap*1.5), gap/2, titleWidth + gap, height-gap);
         g.setColor(new Color((float)50/255, (float)50/255, (float)50/255, (float)0.2));
         g.fillRoundRect((int)menuRect.getX(), (int)menuRect.getY(), 
                 (int)menuRect.getWidth(), (int)menuRect.getHeight(), 10, 10);
         
+        //paint scores
         Rectangle title = new Rectangle(width - titleWidth - gap, titleHeight*1, titleWidth, titleHeight);
         Rectangle red = new Rectangle(width - titleWidth - gap, titleHeight*11/2, titleWidth, titleHeight/2);
         Rectangle green = new Rectangle(width - titleWidth - gap, titleHeight*5, titleWidth, titleHeight/2);
@@ -269,18 +284,27 @@ public class Map extends JPanel implements KeyListener{
         String strGreen = ("Green Tiles: " + Integer.toString(maze.getGreenCount()));
         String strUnvisited = ("Unvisited Tiles : " + Integer.toString(maze.getUnvisitedCount()));
         
-        Font countFont = new Font("Arial", Font.PLAIN, 15);
         
+        Font countFont = new Font("Arial", Font.PLAIN, 15);
         centreString(g, title, "Instructions", new Font("Arial", Font.BOLD, 30), BLACK);
         centreString(g, red, strRed, countFont, BLACK);
         centreString(g, green, strGreen, countFont, BLACK);
         centreString(g, unvisited, strUnvisited, countFont, BLACK);
+        
+        //paint overlay if game completed
         if(gameCompleted){
         	paintGameCompleteOverlay(g, height, width - 250);
         }
         
     }
     
+    /**
+     * @param g			Graphics to be painted on
+     * @param height	height of maze area
+     * @param width		width of maze area
+     * @precondition	Game has completed and is called within paintComponent
+     * @postcondition	an overlay is painted over the maze showing the score
+     */
     private void paintGameCompleteOverlay(Graphics g, int height, int width){
     	Rectangle overlayRect = new Rectangle( 0, 0, width, height);
         g.setColor(new Color((float)50/255, (float)50/255, (float)50/255, (float)0.95));
@@ -307,6 +331,17 @@ public class Map extends JPanel implements KeyListener{
         
     }
     
+    /**
+     * @param g			Graphics to be painted on
+     * @param r			Rectangle for string to be centred in
+     * @param s			String to be drawn
+     * @param font		Font for string to be drawn with
+     * @param c			Color for string to be drawn with
+     * @precondition	Parameters exist and called within paintComponent
+     * @postcondition	A string is drawn in the centre of Rectangle r
+     */
+    //centre string inside rectangle
+    //from http://stackoverflow.com/questions/27706197/how-can-i-center-graphics-drawstring-in-java
     private void centreString(Graphics g, Rectangle r, String s, Font font, Color c) {
         FontRenderContext frc = 
             new FontRenderContext(null, true, true);
@@ -324,10 +359,16 @@ public class Map extends JPanel implements KeyListener{
         g.drawString(s, r.x + a, r.y + b);
     }
     
+	/* (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
@@ -344,6 +385,8 @@ public class Map extends JPanel implements KeyListener{
 		
 		// update maze
 		updateGrid(gi.printMaze(this.sight));
+		
+		//set button visible if game is completed
 		if(gi.isCompleted()){
 			gameCompleted = true;
 			mainMenu.setEnabled(true);
@@ -356,9 +399,10 @@ public class Map extends JPanel implements KeyListener{
 		repaint();	
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
+	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 }

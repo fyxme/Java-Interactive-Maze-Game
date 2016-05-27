@@ -186,6 +186,9 @@ public class SettingsMenu extends JPanel {
 
     }
 
+    /* (non-Javadoc)
+     * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(backgroundImage, 0, 0, null);
@@ -213,7 +216,15 @@ public class SettingsMenu extends JPanel {
 
     }
 
-   
+    /**
+     * @param g			Graphics to be painted on
+     * @param r			Rectangle for string to be centred in
+     * @param s			String to be drawn
+     * @param font		Font for string to be drawn with
+     * @param c			Color for string to be drawn with
+     * @precondition	Parameters exist and called within paintComponent
+     * @postcondition	A string is drawn in the centre of Rectangle r
+     */
     //centre string inside rectangle
     //from http://stackoverflow.com/questions/27706197/how-can-i-center-graphics-drawstring-in-java
     private void centreString(Graphics g, Rectangle r, String s, Font font, Color c) {
@@ -232,7 +243,13 @@ public class SettingsMenu extends JPanel {
         g.setFont(font);
         g.drawString(s, r.x + a, r.y + b);
     }
-
+    
+    /**
+     * @param g			Graphics to be painted on
+     * @param r			Rectangle to be filled
+     * @precondition	Parameters exist and called within paintComponent
+     * @postcondition	Rectangle r is filled with fillRoundRect
+     */
     private void fillButton(Graphics g, Rectangle r){
         g.setColor(buttonColor);
         g.fillRoundRect((int)r.getX(), (int)r.getY(), 
