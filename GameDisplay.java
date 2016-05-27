@@ -69,9 +69,9 @@ public class GameDisplay {
         //add JPanels
         cards.add(new MainMenu(this), "MainMenu");
         cards.add(new SettingsMenu(this), "SettingsMenu");
+        swapPanel("MainMenu");
         
 
-        
         //Display the window.
         mainFrame.getContentPane().add(cards);
         mainFrame.pack();
@@ -91,7 +91,6 @@ public class GameDisplay {
             if(c.isVisible()){
                 c.setFocusable(true);
                 c.requestFocusInWindow();
-
                 cards.setPreferredSize(c.getPreferredSize());
                 mainFrame.pack();
             }

@@ -4,6 +4,7 @@
 public class GameInstance {
 	private Player player;
 	private Maze maze;
+	private boolean completed;
 	
 	public GameInstance (int width, int height, int sight, String name) {
 		this.maze = new Maze(width,height,sight);
@@ -37,5 +38,12 @@ public class GameInstance {
 	 */
 	public Maze getMaze() {
 		return maze;
+	}
+	
+	public boolean isCompleted(){
+		if(maze.getEndTile() == player.getPosition()){
+			return true;
+		}
+		return false;
 	}
 }

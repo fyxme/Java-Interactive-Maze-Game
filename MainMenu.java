@@ -12,13 +12,12 @@ import java.io.IOException;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.swing.JButton;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.ImageIcon;
-
 
 
 public class MainMenu extends JPanel {
@@ -27,6 +26,9 @@ public class MainMenu extends JPanel {
     private final Color buttonColor;
     private int gap = 10;
     private BufferedImage backgroundImage;
+    final JButton play = new JButton("Play");
+    final JButton settings = new JButton("Settings");
+    final JButton quit = new JButton("Quit");
 
     public MainMenu(GameDisplay displayController){
         setFocusable(true);
@@ -50,15 +52,16 @@ public class MainMenu extends JPanel {
 
         this.displayController = displayController;   
     }
-
+    
+    public void focus(){
+    	play.requestFocus();
+    }
+    
     private void addButtons(){
 
         Dimension menuDimension = this.getPreferredSize();
         int buttonHeight = (int)(menuDimension.getHeight()/10);
         int buttonWidth = (int)(menuDimension.getWidth()/4);
-        JButton play = new JButton("Play");
-        JButton settings = new JButton("Settings");
-        JButton quit = new JButton("Quit");
         Font buttonFont = new Font("Arial", Font.PLAIN, 20);
 
         play.setBounds(buttonWidth*3/2, 
@@ -88,7 +91,7 @@ public class MainMenu extends JPanel {
                 displayController.swapPanel("Map");
             }
         });
-
+        
         settings.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e){
@@ -103,10 +106,83 @@ public class MainMenu extends JPanel {
             }
         });
 
+        play.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+               switch (e.getKeyCode()) {
+               case KeyEvent.VK_UP:
+                  quit.requestFocus();
+                  break;
+               case KeyEvent.VK_DOWN:
+                  settings.requestFocus();
+                  break;
+               case KeyEvent.VK_LEFT:
+                  quit.requestFocus();
+                  break;
+               case KeyEvent.VK_RIGHT:
+                  settings.requestFocus();
+                  break;
+               case KeyEvent.VK_ENTER:
+            	   ((JButton) e.getComponent()).doClick();
+            	   break;
+               default:
+                  break;
+               }
+            }
+        });
+        
+        settings.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+               switch (e.getKeyCode()) {
+               case KeyEvent.VK_UP:
+                  play.requestFocus();
+                  break;
+               case KeyEvent.VK_DOWN:
+                  quit.requestFocus();
+                  break;
+               case KeyEvent.VK_LEFT:
+                  play.requestFocus();
+                  break;
+               case KeyEvent.VK_RIGHT:
+            	  quit.requestFocus();
+                  break;
+               case KeyEvent.VK_ENTER:
+            	   ((JButton) e.getComponent()).doClick();
+            	   break;
+               default:
+                  break;
+               }
+            }
+        });
+        
+        quit.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+               switch (e.getKeyCode()) {
+               case KeyEvent.VK_UP:
+                  settings.requestFocus();
+                  break;
+               case KeyEvent.VK_DOWN:
+                  play.requestFocus();
+                  break;
+               case KeyEvent.VK_LEFT:
+                  settings.requestFocus();
+                  break;
+               case KeyEvent.VK_RIGHT:
+                  play.requestFocus();
+                  break;
+               case KeyEvent.VK_ENTER:
+            	   ((JButton) e.getComponent()).doClick();
+            	   break;
+               default:
+                  break;
+               }
+            }
+        });
         add(play);
         add(settings);
         add(quit);
-
     }
 
     public void paintComponent(Graphics g){

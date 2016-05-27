@@ -11,10 +11,7 @@ import java.awt.Rectangle;
 import java.awt.Font;
 
 
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 
@@ -42,6 +39,12 @@ public class Map extends JPanel implements KeyListener{
 	private int dimension;
 	private int wallFraction = 8;
 	private static final String DEFAULT_NAME = "Ronin the Conqueror of Worlds";
+	private boolean gameCompleted;
+	public int score;
+	
+	final private JButton rageQuit = new JButton("Rage Quit!");
+	final private JButton playAgain = new JButton("Play Again");
+	final private JButton mainMenu = new JButton("Main Menu");
 
     private GameDisplay displayController;
     
@@ -49,6 +52,7 @@ public class Map extends JPanel implements KeyListener{
     // which will include things like dimensions, color, properties in the
     // game world.  Keeping simple just to illustrate.
     private Color[][] terrainGrid;
+    
 
     
     public Map(GameDisplay displayController, int dimension, int sight){
@@ -72,6 +76,8 @@ public class Map extends JPanel implements KeyListener{
     	setFocusTraversalKeysEnabled(false);
     	gi = new GameInstance(dimension, dimension, sight, DEFAULT_NAME);
     	this.maze = gi.getMaze();
+    	gameCompleted = false;
+    	score = 0;
     	
     	this.terrainGrid = new Color[(dimension * 2 + 1)][(dimension * 2 + 1)];
 
@@ -82,13 +88,12 @@ public class Map extends JPanel implements KeyListener{
         setPreferredSize(new Dimension(windowDimension + 250, windowDimension));
 
         this.displayController = displayController;
-        addButton();
+        addButtons();
         addHowToPlay();
     }
     
     private void addHowToPlay(){
     	Dimension menuDimension = this.getPreferredSize();
-        int height = (int)menuDimension.getHeight();
         int width = (int)menuDimension.getWidth();
         int labelHeight = (int)(menuDimension.getHeight()/10);
         int labelWidth = 200;
@@ -111,15 +116,16 @@ public class Map extends JPanel implements KeyListener{
         text.setOpaque(false);
         text.setBackground(new Color((float)50/255, (float)50/255, (float)50/255, (float)0.5));
         text.setEditable(false);
+        text.setEnabled(false);
+        text.setDisabledTextColor(BLACK);
         //title.setFont(titleFont);
         
         //add(title);
         add(text);
     }
     
-    private void addButton(){
+    private void addButtons(){
         Dimension menuDimension = this.getPreferredSize();
-        int height = (int)menuDimension.getHeight();
         int width = (int)menuDimension.getWidth();
         int buttonHeight = (int)(menuDimension.getHeight()/10);
         int buttonWidth = 200;
@@ -127,7 +133,6 @@ public class Map extends JPanel implements KeyListener{
         Font buttonFont = new Font("Arial", Font.BOLD, 30 );
 
       
-        final JButton rageQuit = new JButton("Rage Quit!");
         //rageQuit.setOpaque(false);
         //rageQuit.setContentAreaFilled(false);
         rageQuit.setSize(buttonWidth, buttonHeight);
@@ -136,10 +141,24 @@ public class Map extends JPanel implements KeyListener{
         //rageQuit.setForeground(Color.CYAN);
         //rageQuit.setBorderPainted(false);
         rageQuit.setFont(buttonFont);
-
         
-
-
+        buttonFont = new Font("Arial", Font.PLAIN, 20 );
+        buttonWidth = (width - 250)/4;
+        playAgain.setSize(buttonWidth, buttonHeight);
+        playAgain.setBounds(buttonWidth - gap, buttonHeight * 7, buttonWidth, buttonHeight);
+        playAgain.setLocation(buttonWidth - gap, buttonHeight * 7);
+        playAgain.setFont(buttonFont);
+        playAgain.setEnabled(false);
+        playAgain.setVisible(false);
+        
+        mainMenu.setSize(buttonWidth, buttonHeight);
+        mainMenu.setBounds(buttonWidth*2 + gap, buttonHeight * 7, buttonWidth, buttonHeight);
+        mainMenu.setLocation(buttonWidth*2 + gap, buttonHeight * 7);
+        mainMenu.setFont(buttonFont);
+        mainMenu.setEnabled(false);
+        mainMenu.setVisible(false);
+        
+        
         rageQuit.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e){
@@ -154,8 +173,24 @@ public class Map extends JPanel implements KeyListener{
                 rageQuit.setForeground(Color.BLACK);
             }
         });
+        
+        mainMenu.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                displayController.swapPanel("MainMenu");
+            }
+        });
+        
+        playAgain.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                displayController.swapPanel("Map");
+            }
+        });
 
         add(rageQuit);
+        add(playAgain);
+        add(mainMenu);
     }
 
     public void updateGrid(String maze) {
@@ -227,17 +262,12 @@ public class Map extends JPanel implements KeyListener{
                 (int)menuRect.getWidth(), (int)menuRect.getHeight(), 10, 10);
         
         Rectangle title = new Rectangle(width - titleWidth - gap, titleHeight*1, titleWidth, titleHeight);
-        Rectangle red = new Rectangle(width - titleWidth - gap, titleHeight*5, titleWidth, titleHeight/2);
-        Rectangle green = new Rectangle(width - titleWidth - gap, titleHeight*11/2, titleWidth, titleHeight/2);
+        Rectangle red = new Rectangle(width - titleWidth - gap, titleHeight*11/2, titleWidth, titleHeight/2);
+        Rectangle green = new Rectangle(width - titleWidth - gap, titleHeight*5, titleWidth, titleHeight/2);
         Rectangle unvisited = new Rectangle(width - titleWidth - gap, titleHeight*6, titleWidth, titleHeight/2);
-        //Rectangle total = new Rectangle(width - titleWidth - gap, titleHeight*13/2, titleWidth, titleHeight/2);
-        //g.setColor(new Color((float)50/255, (float)50/255, (float)50/255, (float)0.5));
-        //g.fillRoundRect((int)title.getX(), (int)title.getY(), 
-                    //(int)title.getWidth(), (int)title.getHeight(), 10, 10);
-        String strRed = ("Red : " + Integer.toString(maze.getRedCount()));
-        String strGreen = ("Green : " + Integer.toString(maze.getGreenCount()));
-        //String strTotal = ("Total Visited : " + Integer.toString(maze.getTotalCount()));
-        String strUnvisited = ("Unvisited : " + Integer.toString(maze.getUnvisitedCount()));
+        String strRed = ("Red Tiles: " + Integer.toString(maze.getRedCount()));
+        String strGreen = ("Green Tiles: " + Integer.toString(maze.getGreenCount()));
+        String strUnvisited = ("Unvisited Tiles : " + Integer.toString(maze.getUnvisitedCount()));
         
         Font countFont = new Font("Arial", Font.PLAIN, 15);
         
@@ -245,18 +275,36 @@ public class Map extends JPanel implements KeyListener{
         centreString(g, red, strRed, countFont, BLACK);
         centreString(g, green, strGreen, countFont, BLACK);
         centreString(g, unvisited, strUnvisited, countFont, BLACK);
-        //centreString(g, total, strTotal, countFont, BLACK);
-
-        //paint rageQuit button
-        //Dimension menuDimension = this.getPreferredSize();
-        //       int buttonHeight = (int)(menuDimension.getHeight()/10);
-        //int buttonWidth = (int)(menuDimension.getWidth()/4);
-
-        //Rectangle rageQuitRect = new Rectangle(0, buttonHeight*9, buttonWidth, buttonHeight);
-        //g.setColor(new Color((float)50/255, (float)50/255, (float)50/255, (float)0.5));
-        //g.fillRoundRect((int)rageQuitRect.getX() + 10, (int)rageQuitRect.getY() + 10, 
-        //    (int)rageQuitRect.getWidth()-20, (int)rageQuitRect.getHeight()- 20, 10, 10);
-
+        if(gameCompleted){
+        	paintGameCompleteOverlay(g, height, width - 250);
+        }
+        
+    }
+    
+    private void paintGameCompleteOverlay(Graphics g, int height, int width){
+    	Rectangle overlayRect = new Rectangle( 0, 0, width, height);
+        g.setColor(new Color((float)50/255, (float)50/255, (float)50/255, (float)0.95));
+        g.fillRoundRect((int)overlayRect.getX(), (int)overlayRect.getY(), 
+                (int)overlayRect.getWidth(), (int)overlayRect.getHeight(), 10, 10);
+        int titleHeight = height/10;
+        int titleWidth = width/2;
+        
+        Rectangle title = new Rectangle(titleWidth/2, titleHeight/2, titleWidth, titleHeight);
+        centreString(g, title, "Congratulations!", new Font("Arial", Font.BOLD, 40), WHITE);
+        Rectangle title2 = new Rectangle(titleWidth/2, titleHeight*3/2, titleWidth, titleHeight);
+        centreString(g, title2, "You reached the end!", new Font("Arial", Font.BOLD, 30), WHITE);
+        
+        Rectangle score1 = new Rectangle(0, titleHeight*7/2, titleWidth, titleHeight);
+        Rectangle score2 = new Rectangle(titleWidth, titleHeight*7/2, titleWidth, titleHeight);
+        
+        if(score < maze.getUnvisitedCount()){
+        	score = maze.getUnvisitedCount();
+        }
+        
+        centreString(g, score1, "Your Score is : ", new Font("Arial", Font.BOLD, 30), WHITE);
+        centreString(g, score2, Integer.toString(score), new Font("Arial", Font.BOLD, 30), WHITE);
+        
+        
     }
     
     private void centreString(Graphics g, Rectangle r, String s, Font font, Color c) {
@@ -296,6 +344,14 @@ public class Map extends JPanel implements KeyListener{
 		
 		// update maze
 		updateGrid(gi.printMaze(this.sight));
+		if(gi.isCompleted()){
+			gameCompleted = true;
+			mainMenu.setEnabled(true);
+			mainMenu.setVisible(true);
+			playAgain.setEnabled(true);
+			playAgain.setVisible(true);
+			
+		}
 		// update display
 		repaint();	
 	}
