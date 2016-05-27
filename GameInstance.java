@@ -4,7 +4,7 @@
 public class GameInstance {
 	private Player player;
 	private Maze maze;
-	private boolean completed;
+//	private boolean completed;
 	
 	public GameInstance (int width, int height, int sight, String name) {
 		this.maze = new Maze(width,height,sight);

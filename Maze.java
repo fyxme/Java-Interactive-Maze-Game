@@ -27,7 +27,6 @@ public class Maze {
 		this.height = height;
 		initialiseMaze(width,height);
 		generateMaze();
-		//DEFAULT_SIGHT = sight;
 	}
 	
 	private void initialiseMaze( int width, int height) {
@@ -82,6 +81,8 @@ public class Maze {
 				// current tile
 				if(maze[x][y] == player_pos) {
 					ret += "P";
+				} else if(maze[x][y] == getEndTile()) {
+					ret += "E";
 				} else if(maze[x][y].hasBeenVisited() > 0) {
 					if (maze[x][y].hasBeenVisited()%2 == 1) {
 						ret += "V";
@@ -174,7 +175,9 @@ public class Maze {
 				} else {
 					if(maze[x][y] == player_pos) {
 						ret += "P";
-					} else if(maze[x][y].hasBeenVisited() > 0) {
+					} else if(maze[x][y] == getEndTile()) {
+						ret += "E";
+					}else if(maze[x][y].hasBeenVisited() > 0) {
 						if (maze[x][y].hasBeenVisited()%2 == 1) {
 							ret += "V";
 						} else {
