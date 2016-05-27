@@ -4,10 +4,9 @@
 public class GameInstance {
 	private Player player;
 	private Maze maze;
-//	private boolean completed;
 	
 	public GameInstance (int width, int height, int sight, String name) {
-		this.maze = new Maze(width,height,sight);
+		this.maze = new Maze(width,height);
 		
 		this.player = new Player(name);
 		this.player.setPosition(this.maze.getStartTile());
@@ -40,6 +39,9 @@ public class GameInstance {
 		return maze;
 	}
 	
+	/**
+	 * @return True if the game is complete else returns false
+	 */
 	public boolean isCompleted(){
 		if(maze.getEndTile() == player.getPosition()){
 			return true;

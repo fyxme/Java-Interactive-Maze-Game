@@ -38,7 +38,7 @@ public class GameDisplay {
     private int mazeSize = 20;
     private int sight = 5;
 
-    JFrame mainFrame;
+    private JFrame mainFrame;
 
     /**
      * @precondition	existing object GameDisplay

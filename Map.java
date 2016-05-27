@@ -20,14 +20,15 @@ public class Map extends JPanel implements KeyListener{
 	private static final int RIGHT = 1;
 	private static final int UP = 2;
 	private static final int DOWN = 3;
-    public static final Color WHITE = Color.WHITE;
-    public static final Color BLACK = Color.decode("#3E2723");
-    public static final Color RED = Color.decode("#F44336");
-    public static final Color PATH1 = Color.decode("#DCEDC8");
-    public static final Color PATH2 = Color.decode("#FFCCBC");
-    public static final Color BLUE = Color.decode("#3F51B5");
+    private static final Color WHITE = Color.WHITE;
+    private static final Color BLACK = Color.decode("#3E2723");
+    private static final Color RED = Color.decode("#F44336");
+    private static final Color PATH1 = Color.decode("#DCEDC8");
+    private static final Color PATH2 = Color.decode("#FFCCBC");
+    private static final Color BLUE = Color.decode("#3F51B5");
     
-    GameInstance gi = null;
+    private GameInstance gi = null;
+    private Color[][] terrainGrid;
     
     private Maze maze;
     private int block_pixel_dimension,wall_pixel_dimension;
@@ -36,20 +37,13 @@ public class Map extends JPanel implements KeyListener{
 	private int wallFraction = 8;
 	private static final String DEFAULT_NAME = "Ronin the Conqueror of Worlds";
 	private boolean gameCompleted;
-	public int score;
+	private int score;
 	
 	final private JButton rageQuit = new JButton("Rage Quit!");
 	final private JButton playAgain = new JButton("Play Again");
 	final private JButton mainMenu = new JButton("Main Menu");
 
     private GameDisplay displayController;
-    
-    // In reality you will probably want a class here to represent a map tile,
-    // which will include things like dimensions, color, properties in the
-    // game world.  Keeping simple just to illustrate.
-    private Color[][] terrainGrid;
-    
-
     
     /**
      * @param displayController	a GameDisplay object
@@ -108,7 +102,7 @@ public class Map extends JPanel implements KeyListener{
         Font textFont = new Font("Arial", Font.PLAIN, 20 );
         
         String howToPlayText = ("Use the arrow keys or the 'WASD' keys to try and"
-        		+ " reach the top right corner of the map!");
+        		+ " reach the top left corner of the map!");
         JTextArea text = new JTextArea(howToPlayText);
 
         text.setBounds(width - labelWidth - gap, labelHeight*3, labelWidth, labelHeight*5);

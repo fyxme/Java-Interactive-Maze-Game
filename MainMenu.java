@@ -26,9 +26,9 @@ public class MainMenu extends JPanel {
     private final Color buttonColor;
     private int gap = 10;
     private BufferedImage backgroundImage;
-    final JButton play = new JButton("Play");
-    final JButton settings = new JButton("Settings");
-    final JButton quit = new JButton("Quit");
+    private final JButton play = new JButton("Play");
+    private final JButton settings = new JButton("Settings");
+    private final JButton quit = new JButton("Quit");
 
     /**
      * @param displayController	a GameDisplay object

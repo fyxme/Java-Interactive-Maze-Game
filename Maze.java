@@ -4,13 +4,17 @@ import java.util.Stack;
 
 /**
  * Class containing the Maze
- *
  */
 public class Maze {
 	private Tile initial_tile = null;
 	private Tile[][] maze = null;
 	private int width,height = 0;
 	
+	/**
+	 * Maze constructor class
+	 * @param width Width of the maze to generate
+	 * @param height Height of the maze to generate
+	 */
 	public Maze (int width, int height) {
 		this.maze = new Tile[width][height];
 		// initialise maze
@@ -19,17 +23,13 @@ public class Maze {
 		initialiseMaze(width,height);
 		generateMaze();
 	}
-
-	public Maze (int width, int height, int sight) {
-		this.maze = new Tile[width][height];
-		// initialise maze
-		this.width = width;
-		this.height = height;
-		initialiseMaze(width,height);
-		generateMaze();
-	}
 	
-	private void initialiseMaze( int width, int height) {
+	/**
+	 * Initialise the Maze based on given arguments
+	 * @param width Width to generate
+	 * @param height Height to generate
+	 */
+	private void initialiseMaze(int width, int height) {
 		
 		Tile[][] temp = new Tile[width][height];
 
@@ -62,9 +62,9 @@ public class Maze {
 	}
 	
 	/**
-	 * prints the whole maze
-	 * @param player_pos
-	 * @return
+	 * Get the whole maze as an array
+	 * @param player_pos The tile on which the player is
+	 * @return a String containing the Maze
 	 */
 	public String getMazeFromArray(Tile player_pos) {
 		String ret = "";
@@ -139,10 +139,10 @@ public class Maze {
 	}
 	
 	/**
-	 * prints the surroundings based on the perpendicular sight distance specified
-	 * @param player_pos
-	 * @param sightRadius
-	 * @return
+	 * Get the surroundings based on the perpendicular sight distance specified
+	 * @param player_pos The Tile on which the player is
+	 * @param sightRadius The sight radius
+	 * @return a String containing the surroundings of the player based on sight radius
 	 */
 	public String getImmediateFromArray(Tile player_pos, int sightRadius) {
 		//finding the position of the Player
@@ -245,12 +245,24 @@ public class Maze {
 		return ret;
 	}
 	
+	/**
+	 * Helper function to get a random in between 2 values
+	 * @param a Min value
+	 * @param b Max value
+	 * @return an random integer between the two values
+	 */
 	private int getRandBetween(int a, int b) {
 		
 		return (int)(Math.random() * b + a);
 	}
 	
-	public void recursiveBacktracker(Tile current, List<Tile> unvisited,Stack <Tile> stack) {
+	/**
+	 * Generate a maze using recursive backtracking
+	 * @param current Current tile
+	 * @param unvisited List of unvisited Tiles
+	 * @param stack Stack of Tiles
+	 */
+	private void recursiveBacktracker(Tile current, List<Tile> unvisited,Stack <Tile> stack) {
 		
 		if (unvisited.isEmpty()) return;
 	
@@ -285,7 +297,10 @@ public class Maze {
 		
 	}
 	
-	public void generateMaze() {
+	/**
+	 * Generate the Maze using recursive backtracking algorithm
+	 */
+	private void generateMaze() {
 		// add all cells to the unvisited list
 		List<Tile> unvisited = getAllTiles(initial_tile,null);
 		
@@ -295,12 +310,24 @@ public class Maze {
 		recursiveBacktracker(initial_tile,unvisited,new Stack<Tile>());
 	}
 	
+	/**
+	 * Helper function to get the all the tiles in a line
+	 * @param current Current tile
+	 * @param tiles List of tiles in the line
+	 * @return a List of Tile
+	 */
 	private List<Tile> getTilesForLine(Tile current,List<Tile>tiles) {
 		tiles.add(current);
 		if (current.getRight() == null) return tiles;
 		return getTilesForLine(current.getRight().getConnectedTile(current),tiles);
 	}
 	
+	/**
+	 * Helper function to get all Tiles of the Maze
+	 * @param current Current tile
+	 * @param tiles List of all tiles inside of the Maze
+	 * @return the List of Tiles
+	 */
 	private List<Tile> getAllTiles(Tile current,List<Tile>tiles) {
 		if (tiles == null) tiles = new ArrayList<Tile>();
 
@@ -309,14 +336,30 @@ public class Maze {
 		return getAllTiles(current.getDown().getConnectedTile(current),getTilesForLine(current,tiles));
 	}
 
+	/**
+	 * Get the last tile in the Maze. 
+	 * Considering the player starts in the bottom right, 
+	 * the end Tile is in the Top Left 
+	 * @return The last tile in the maze
+	 */
 	public Tile getEndTile() {
 		return this.initial_tile;
 	}
 	
+	/**
+	 * Get the Starting Tile
+	 * The starting tile is the most bottom right Tile.
+	 * This is a design decision made 
+	 * so that there are more choices to make inside of the maze
+	 * @return
+	 */
 	public Tile getStartTile() {
 		return maze[width-1][height-1];
 	}
 	
+	/**
+	 * @return The number of red tiles
+	 */
 	public int getRedCount() {
 		int c = 0;
 		for(int i = 0; i < this.width; i++) {
@@ -329,6 +372,9 @@ public class Maze {
 		return c;
 	}
 	
+	/**
+	 * @return The number of green Tiles
+	 */
 	public int getGreenCount() {
 		int c = 0;
 		for(int i = 0; i < this.width; i++) {
@@ -341,10 +387,16 @@ public class Maze {
 		return c;
 	}
 	
+	/**
+	 * @return The number of unvisited Tiles
+	 */
 	public int getUnvisitedCount() {
 		return this.getTotalCount() - this.getGreenCount() - this.getRedCount();
 	}
 	
+	/**
+	 * @return The total number of Tiles
+	 */
 	public int getTotalCount() {
 		return this.width * this.height;
 	}
