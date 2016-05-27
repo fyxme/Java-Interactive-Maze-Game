@@ -13,15 +13,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.swing.JButton;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.ImageIcon;
 import javax.swing.JFormattedTextField;
 import java.text.NumberFormat;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
-import javax.swing.JTextField;
 
 
 
@@ -29,11 +25,15 @@ public class SettingsMenu extends JPanel {
 
     private GameDisplay displayController;
     private final Color buttonColor;
-    private int gap = 10;
     private BufferedImage backgroundImage;
     private JFormattedTextField size;
     private JFormattedTextField vision;
 
+    /**
+     * @param displayController	a GameDisplay object
+     * @precondition			a GameDisplay must exist
+     * @postcondition			a SettingsMenu object is constructed
+     */
     public SettingsMenu(GameDisplay displayController){
         setFocusable(true);
         setLayout(null);
@@ -59,6 +59,10 @@ public class SettingsMenu extends JPanel {
 
     }
 
+    /**
+     * @precondition	SettingsMenu constructor is run
+     * @postcondition	JFormattedTextFields are added to the panel
+     */
     private void addFields(){
         Dimension menuDimension = this.getPreferredSize();
         int fieldHeight = (int)(menuDimension.getHeight()/20);
@@ -102,6 +106,10 @@ public class SettingsMenu extends JPanel {
 
     }
 
+    /**
+     * @precondition	SettingsMenu constructor is run
+     * @postcondition	JButtons are added to Settings Menu
+     */
     private void addComponents(){
 
         Dimension menuDimension = this.getPreferredSize();
