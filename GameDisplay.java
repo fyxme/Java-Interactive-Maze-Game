@@ -40,24 +40,40 @@ public class GameDisplay {
 
     JFrame mainFrame;
 
+    /**
+     * @precondition	existing object GameDisplay
+     * @postcondition	returns maze size as an int
+     * @return			mazeSize
+     */
     public int getMazeSize(){
         return mazeSize;
     }
 
+    /**
+     * @precondition	existing object GameDisplay
+     * @postcondition	returns sight radius as an int
+     * @return			sight
+     */
     public int getSight(){
         return sight;
     }
-
+    
+    
+    /**
+     * @precondition	GameDisplay is called in run() inside javax.swing.SwingUtilities.invokeLater()
+     * @postcondition	GameDisplay object created and placed in java swing run queue
+     * 					the game will be displayed in a JFrame
+     */
     public GameDisplay(){
         createAndShowGUI();
     }
+
+
+
     /**
-     * Create the GUI and show it.  For thread safety,
-     * this method should be invoked from the
-     * event-dispatching thread.
+     * @precondition	GameDisplay constructor is called
+     * @postcondition	constructs the GameDisplay
      */
-
-
     private void createAndShowGUI() {
         //Create and set up the window.
         mainFrame = new JFrame("Battlefield One");
@@ -79,6 +95,12 @@ public class GameDisplay {
         mainFrame.setVisible(true);    
     }
 
+    /**
+     * @param panelName	name of panel in CardLayout to switch to
+     * @precondition	panelName is a valid name of a panel in CardLayout or is "Map"
+     * @postcondition	old panel is hidden and a new panel with name panelName is shown, 
+     * 					if panelName is "Map" a new Map is created and shown
+     */
     public void swapPanel(String panelName){
         CardLayout cl = (CardLayout)(cards.getLayout());
 
@@ -101,11 +123,20 @@ public class GameDisplay {
 
 
 
+    /**
+     * @param mazeSize	size of maze to be generated
+     * @param sight		radius of vision in game (sight == 0 means the full maze is displayed)
+     * @precondition 	(sight < (mazeSize/2 - 1))
+     * @postcondition	mazeSize and sight fields are changed
+     */
     public void setMazeSettings(int mazeSize, int sight){
         this.mazeSize = mazeSize;
         this.sight = sight;
     }
 
+    /**
+     * main
+     */
     public static void main(String[] args) {
         //Schedule a job for the event-dispatching thread:
         //creating and showing this application's GUI.
