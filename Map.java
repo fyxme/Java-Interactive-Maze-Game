@@ -311,22 +311,22 @@ public class Map extends JPanel implements KeyListener{
         g.fillRoundRect((int)overlayRect.getX(), (int)overlayRect.getY(), 
                 (int)overlayRect.getWidth(), (int)overlayRect.getHeight(), 10, 10);
         int titleHeight = height/10;
-        int titleWidth = width/2;
+        int titleWidth = width/4;
         
-        Rectangle title = new Rectangle(titleWidth/2, titleHeight/2, titleWidth, titleHeight);
+        Rectangle title = new Rectangle(titleWidth, titleHeight/2, titleWidth*2, titleHeight);
         centreString(g, title, "Congratulations!", new Font("Arial", Font.BOLD, 40), WHITE);
-        Rectangle title2 = new Rectangle(titleWidth/2, titleHeight*3/2, titleWidth, titleHeight);
+        Rectangle title2 = new Rectangle(titleWidth, titleHeight*3/2, titleWidth*2, titleHeight);
         centreString(g, title2, "You reached the end!", new Font("Arial", Font.BOLD, 30), WHITE);
         
-        Rectangle score1 = new Rectangle(0, titleHeight*7/2, titleWidth, titleHeight);
-        Rectangle score2 = new Rectangle(titleWidth, titleHeight*7/2, titleWidth, titleHeight);
+        Rectangle score1 = new Rectangle(0, titleHeight*7/2, titleWidth*3, titleHeight);
+        Rectangle score2 = new Rectangle(titleWidth, titleHeight*7/2, titleWidth*3, titleHeight);
         
         if(score < maze.getUnvisitedCount()){
-        	score = maze.getUnvisitedCount();
+        	score = 100*maze.getGreenCount()/(maze.getTotalCount()-maze.getUnvisitedCount());
         }
         
-        centreString(g, score1, "Your Score is : ", new Font("Arial", Font.BOLD, 30), WHITE);
-        centreString(g, score2, Integer.toString(score), new Font("Arial", Font.BOLD, 30), WHITE);
+        centreString(g, score1, "Efficiency : ", new Font("Arial", Font.BOLD, 30), WHITE);
+        centreString(g, score2, Integer.toString(score)+"%", new Font("Arial", Font.BOLD, 30), WHITE);
         
         
     }
