@@ -43,7 +43,7 @@ public class SettingsMenu extends JPanel {
         setPreferredSize(new Dimension(preferredWidth, preferredHeight));
 
         try {                
-            this.backgroundImage = ImageIO.read(new File("./src/bliss.jpg"));
+            this.backgroundImage = ImageIO.read(new File("./bliss.jpg"));
         } catch (IOException ex) {
             System.exit(1);
         }

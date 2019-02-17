@@ -2,3 +2,4 @@ diary.*
 get_diary.pl
 getDiary.pl
 *.class
+.DS_Store
